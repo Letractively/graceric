@@ -2,15 +2,16 @@
 /* Graceric
 *  Author: ericfish
 *  File: /gc-includes/index.php
-*  Usage: Index Page
+*  Usage: Start Page
 *  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
 *
 *  Subversion Keywords:
 *
-*  $LastChangedDate: 3/30/2007 $
-*  $LastChangedRevision: 1 $
-*  $LastChangedBy: ericfish $
-*  $URL: http://graceric.googlecode.com/svn/trunk/index.php $
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
  *
  * Copyright (C) 2007 ericfish <ericfish@gmail.com>
  *

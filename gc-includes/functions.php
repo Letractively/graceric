@@ -1,4 +1,18 @@
 <?php
+/* Graceric
+*  Author: ericfish
+*  File: /gc-includes/functions.php
+*  Usage: Main Functions (Page defination related)
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
 
 /***** Page Check functions (check which kind of page is) *****/
 

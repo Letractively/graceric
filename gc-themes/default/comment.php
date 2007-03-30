@@ -1,3 +1,19 @@
+<?php
+/* Graceric
+*  Author: ericfish
+*  File: /gc-themes/default/comment.php
+*  Usage: Default Comment Template
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
+?>
 
 <span class="lastpost">[<a class="blogkommlink" href="?q=<? the_ID(); ?>">Hide comment</a>]</span>
 <form method="post" name="comm" action="?q=<? the_ID(); ?>&comment#comment">

@@ -1,4 +1,18 @@
 <?php
+/* Graceric
+*  Author: ericfish
+*  File: /gc-header.php
+*  Usage: template configuration
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
 
 require_once( dirname(__FILE__) . '/gc-config.php');
 

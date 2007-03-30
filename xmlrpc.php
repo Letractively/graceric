@@ -1,4 +1,18 @@
 <?php
+/* Graceric
+*  Author: ericfish
+*  File: /xmlrpc.php
+*  Usage: XML-RPC interface
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
 
 # fix for mozBlog and other cases where '<?xml' isn't on the very first line
 $HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);

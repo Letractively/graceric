@@ -7,10 +7,11 @@
 *
 *  Subversion Keywords:
 *
-*  $LastChangedDate: 3/30/2007 $
-*  $LastChangedRevision: 1 $
-*  $LastChangedBy: ericfish $
-*  $URL: http://graceric.googlecode.com/svn/trunk/gc-includes/admin-functions.php $
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
 */
 
 /***** index.php *****/

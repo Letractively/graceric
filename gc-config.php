@@ -1,4 +1,20 @@
 <?php
+/* Graceric
+*  Author: ericfish
+*  File: /gc-config.php
+*  Usage: database configuration
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
+
+
 // ** MySQL settings ** //
 define('DB_NAME', 'gc');     // The name of the database
 define('DB_USER', 'graceric');     // Your MySQL username
