@@ -1,4 +1,18 @@
 <?php
+/* Graceric
+*  Author: Simon Willison
+*  File: /gc-includes/class-IXR.php
+*  Usage: XML-RPC Library
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
 
 /* 
    IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002

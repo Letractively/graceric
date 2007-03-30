@@ -1,4 +1,19 @@
 <?php
+/* Graceric
+*  Author: ericfish
+*  File: /gc-includes/gcdb.class.php
+*  Usage: DB Class
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
+
 //  DB Class
 
 //  ORIGINAL CODE FROM:

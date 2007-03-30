@@ -1,4 +1,18 @@
 <?php
+/* Graceric
+*  Author: Daniel Morris
+*  File: /gc-includes/admin-functions.php
+*  Usage: InputFilter Class
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
 
 /** @class: InputFilter (PHP4 & PHP5, with comments)
   * @project: PHP Input Filter

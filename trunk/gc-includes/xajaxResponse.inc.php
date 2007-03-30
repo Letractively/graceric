@@ -1,4 +1,18 @@
 <?php
+/* Graceric
+*  Author: Jared White & J. Max Wilson
+*  File: /gc-includes/admin-functions.php
+*  Usage: xajax XML response class
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
 ///////////////////////////////////////////////////////////////////////////////
 // xajaxResponse.inc.php :: xajax XML response class
 //

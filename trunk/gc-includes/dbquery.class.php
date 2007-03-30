@@ -2,15 +2,16 @@
 /* Graceric
 *  Author: ericfish
 *  File: /gc-includes/dbquery.class.php
-*  Usage: Admin Pages Functions
+*  Usage: DBQuery Class
 *  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
 *
 *  Subversion Keywords:
 *
-*  $LastChangedDate: 3/30/2007 $
-*  $LastChangedRevision: 1 $
-*  $LastChangedBy: ericfish $
-*  $URL: http://graceric.googlecode.com/svn/trunk/gc-includes/dbquery.class.php $
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
 */
 
 class DB_Query {

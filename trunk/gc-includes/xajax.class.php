@@ -1,4 +1,18 @@
 <?php
+/* Graceric
+*  Author: Jared White & J. Max Wilson
+*  File: /gc-includes/admin-functions.php
+*  Usage: Main xajax class
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
 ///////////////////////////////////////////////////////////////////////////////
 // xajax.inc.php :: Main xajax class and setup file
 //

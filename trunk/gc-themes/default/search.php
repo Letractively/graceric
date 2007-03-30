@@ -1,4 +1,19 @@
 <?php
+/* Graceric
+*  Author: ericfish
+*  File: /gc-themes/default/search.php
+*  Usage: Default Search Template
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
+
 // Instantiate the xajax object.  No parameters defaults requestURI to this page, method to POST, and debug to off
 
 $xajax = new xajax(); 
