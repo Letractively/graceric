@@ -8,10 +8,10 @@
 *  Subversion Keywords:
 *
 *  $Id$
-*  $LastChangedDate$
-*  $LastChangedRevision$
-*  $LastChangedBy$
-*  $URL$
+*  $LastChangedDate: 2007-03-30 15:09:23 +0800 (Fri, 30 Mar 2007) $
+*  $LastChangedRevision: 10 $
+*  $LastChangedBy: ericfish $
+*  $URL: https://graceric.googlecode.com/svn/trunk/gc-includes/comment-functions.php $
 */
 
 // Show the comment link on page
