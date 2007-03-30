@@ -1,6 +1,6 @@
 <?php
 // ** MySQL settings ** //
-define('DB_NAME', 'graceric');     // The name of the database
+define('DB_NAME', 'gc');     // The name of the database
 define('DB_USER', 'graceric');     // Your MySQL username
 define('DB_PASSWORD', 'graceric'); // ...and password
 define('DB_HOST', 'localhost');     // 99% chance you won't need to change this value
