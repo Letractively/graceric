@@ -1,0 +1,21 @@
+#labels Phase-Design
+#HLD
+
+= Introduction =
+
+Some ideas I have and need to be done in graceric v2
+
+
+= Details =
+
+*1. admin can delete comment on page
+*2. full control of spam blacklist...
+*3. change admin pages(content box WYSIWYG)
+*//4. ajax comment post
+*5. new search engine
+*6. more template // no page diff, only css and pic
+*7. wp setup mode
+*8. more config settings
+*9. dynamic create pages
+*10. refine xmlrpc
+*11. add option -> email required & email server
