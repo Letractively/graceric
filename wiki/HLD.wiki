@@ -1,7 +1,7 @@
 #labels Phase-Design
 = Introduction =
 
-Some ideas I have and need to be done in [http://code.google.com/p/graceric/wiki/Graceric]graceric v2
+Some ideas I have and need to be done in [Graceric] v2
 
 
 = Details =
