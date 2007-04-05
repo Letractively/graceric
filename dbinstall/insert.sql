@@ -2,7 +2,7 @@ INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_c
 VALUES (
 NULL , '0', 'admin_email', 'Y', '1', 'a@b.com', '20', '8', '', '1', 'yes'
 ), (
-NULL , '0', 'base_url', 'Y', '1', 'http://localhost/gcv2', '20', '8', '', '1', 'yes'
+NULL , '0', 'base_url', 'Y', '1', 'http://localhost/gc', '20', '8', '', '1', 'yes'
 ), (
 NULL , '0', 'home_post_number', 'Y', '1', '1', '20', '8', '', '1', 'yes'
 ), (

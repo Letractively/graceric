@@ -25,6 +25,7 @@
 * Links functions
 * About page functions
 * Search functions
+* Counter functions
 * Feed functions
 * Security functions
 */
@@ -79,6 +80,11 @@ function is_month () {
 function is_feed () {
     global $db_query;
     return $db_query->is_feed;
+}
+
+function is_x () {
+    global $db_query;
+    return $db_query->is_x;
 }
 
 /***** Posts functions (They will all be called by template pages) *****/
@@ -175,7 +181,10 @@ function the_title($echo=true) {
 		$request = "SELECT post_title FROM $gcdb->posts WHERE ID=$post_id";
 		
 		$post_title = $gcdb->get_var($request);
-		$blog_title = get_option('blog_title').": ".$post_title;
+		if(isset($post_title))
+		  $blog_title = get_option('blog_title').": ".$post_title;
+		else
+		  $blog_title = "";
     }
     elseif(is_archive()) {	
     	$month = "";
@@ -301,68 +310,70 @@ function recent_post_links(){
 	global $gcdb,$db_query;
 	$cuurent_post_date = the_post_date(false);
 	
-	if(isset($db_query->query_vars['tagid'])) {
-		$tag_id = $gcdb->escape($db_query->query_vars['tagid']);
-		
-		$request_prv = "SELECT a.ID, a.post_title FROM $gcdb->posts a,$gcdb->post2tag b";
-		$request_prv .= " WHERE a.post_date < '".$cuurent_post_date;
-		$request_prv .= "' AND post_status = 'publish'";
-		$request_prv .= " AND b.tag_id = ".$tag_id;
-		$request_prv .= " AND a.ID = b.post_id";
-		if(!user_is_auth())
-		{
-		     $request_prv .= " AND show_in_home = 'yes'";
-		}
-		$request_prv .= " ORDER BY a.post_date,a.ID DESC";
-		$request_prv .= " LIMIT ".get_option('prev_links');
-		$prv_posts = $gcdb->get_results($request_prv);
-		
-		$prv_posts_num = count($prv_posts);
-		
-		if($prv_posts_num==0)
-		{
-			return "";
-		}
-		
-		else{
-			if(is_home()||is_page()) {
-			    for ($i=0;$i<$prv_posts_num;$i++) { 
-			        $prv_post = $prv_posts[$i];	    
-				    echo("&laquo;&laquo;&laquo; <a href='?q=$prv_post->ID&tagid=$tag_id' title='click to view previous blog'>$prv_post->post_title</a><br/><br/>");
-			    }
-			}
-		}
-	}
-	
-	else {
-		$request_prv = "SELECT ID, post_title FROM $gcdb->posts";
-		$request_prv .= " WHERE post_date < '".$cuurent_post_date;
-		$request_prv .= "' AND post_status = 'publish'";
-		if(!user_is_auth())
-		{
-		     $request_prv .= " AND show_in_home = 'yes'";
-		}
-		$request_prv .= " ORDER BY post_date DESC";
-		$request_prv .= " LIMIT ".get_option('prev_links');
-	
-		$prv_posts = $gcdb->get_results($request_prv);
-		
-		$prv_posts_num = count($prv_posts);
-		
-		if($prv_posts_num==0)
-		{
-			return "";
-		}
-		
-		else{
-			if(is_home()||is_page()) {
-			    for ($i=0;$i<$prv_posts_num;$i++) { 
-			        $prv_post = $prv_posts[$i];
-				    echo("&laquo;&laquo;&laquo; <a href='?q=$prv_post->ID' title='click to view previous blog'>$prv_post->post_title</a><br/><br/>");
-			    }
-			}
-		}
-	}
+	if(!is_x()){
+    	if(isset($db_query->query_vars['tagid'])) {
+    		$tag_id = $gcdb->escape($db_query->query_vars['tagid']);
+    		
+    		$request_prv = "SELECT a.ID, a.post_title FROM $gcdb->posts a,$gcdb->post2tag b";
+    		$request_prv .= " WHERE a.post_date < '".$cuurent_post_date;
+    		$request_prv .= "' AND post_status = 'publish'";
+    		$request_prv .= " AND b.tag_id = ".$tag_id;
+    		$request_prv .= " AND a.ID = b.post_id";
+    		if(!user_is_auth())
+    		{
+    		     $request_prv .= " AND show_in_home = 'yes'";
+    		}
+    		$request_prv .= " ORDER BY a.post_date,a.ID DESC";
+    		$request_prv .= " LIMIT ".get_option('prev_links');
+    		$prv_posts = $gcdb->get_results($request_prv);
+    		
+    		$prv_posts_num = count($prv_posts);
+    		
+    		if($prv_posts_num==0)
+    		{
+    			return "";
+    		}
+    		
+    		else{
+    			if(is_home()||is_page()) {
+    			    for ($i=0;$i<$prv_posts_num;$i++) { 
+    			        $prv_post = $prv_posts[$i];	    
+    				    echo("&laquo;&laquo;&laquo; <a href='?q=$prv_post->ID&tagid=$tag_id' title='click to view previous blog'>$prv_post->post_title</a><br/><br/>");
+    			    }
+    			}
+    		}
+    	}
+    	
+    	else {
+    		$request_prv = "SELECT ID, post_title FROM $gcdb->posts";
+    		$request_prv .= " WHERE post_date < '".$cuurent_post_date;
+    		$request_prv .= "' AND post_status = 'publish'";
+    		if(!user_is_auth())
+    		{
+    		     $request_prv .= " AND show_in_home = 'yes'";
+    		}
+    		$request_prv .= " ORDER BY post_date DESC";
+    		$request_prv .= " LIMIT ".get_option('prev_links');
+    	
+    		$prv_posts = $gcdb->get_results($request_prv);
+    		
+    		$prv_posts_num = count($prv_posts);
+    		
+    		if($prv_posts_num==0)
+    		{
+    			return "";
+    		}
+    		
+    		else{
+    			if(is_home()||is_page()) {
+    			    for ($i=0;$i<$prv_posts_num;$i++) { 
+    			        $prv_post = $prv_posts[$i];
+    				    echo("&laquo;&laquo;&laquo; <a href='?q=$prv_post->ID' title='click to view previous blog'>$prv_post->post_title</a><br/><br/>");
+    			    }
+    			}
+    		}
+    	}
+    }
 }
 
 // Get the rss link from option
@@ -595,42 +606,113 @@ function processSearchForm($aFormValues)
 	global $gcdb;
 	
 	$keyword = trim($aFormValues['keyword']);
-	$keyword = iconv( "UTF-8", "gb2312" , $keyword);
-	$keyword = $gcdb->escape($keyword);
-	$keywords = explode(" ", $keyword);
-	$keyword_count = count($keywords);
-
-
-	$request = "SELECT ID,post_title from $gcdb->posts WHERE (";
 	
-	for($i=0;$i < $keyword_count;$i++)
-	{
-		$kw = $keywords[$i];
-		if($i!=0)
-			$request .= " OR ";
-		$request .= "post_title LIKE '%$kw%' OR post_content LIKE '%$kw%'";
+	if($keyword!=""){
+    	$keyword = iconv( "UTF-8", "gb2312" , $keyword);
+    	$keyword = $gcdb->escape($keyword);
+    	$keywords = explode(" ", $keyword);
+    	$keyword_count = count($keywords);
+    
+    
+    	$request = "SELECT ID,post_title from $gcdb->posts WHERE (";
+    	
+    	for($i=0;$i < $keyword_count;$i++)
+    	{
+    		$kw = $keywords[$i];
+    		if($i!=0)
+    			$request .= " OR ";
+    		$request .= "post_title LIKE '%$kw%' OR post_content LIKE '%$kw%'";
+    	}
+    	$request .= ") AND post_status='publish'";
+    	
+    	$search_results = $gcdb->get_results($request);
+    	$numbers = count($search_results);
+    	
+    	$text = '';
+    	
+    	for($i=0;$i<$numbers;$i++)
+    	{
+    		$search_result = $search_results[$i];
+    		$post_ID = $search_result->ID;
+    		$post_title = $search_result->post_title;
+    		$text.= "<a href='?q=$post_ID'>$post_title</a><br><br>\n";
+    	}
+    	
+    	$objResponse = new xajaxResponse();
+    	$objResponse->addAssign("div1","innerHTML",$text);
+    	$objResponse->addAssign("submit","value","search");
+    	$objResponse->addAssign("submit","disabled",false);
 	}
-	$request .= ") AND post_status='publish'";
-	
-	$search_results = $gcdb->get_results($request);
-	$numbers = count($search_results);
-	
-	$text = '';
-	
-	for($i=0;$i<$numbers;$i++)
-	{
-		$search_result = $search_results[$i];
-		$post_ID = $search_result->ID;
-		$post_title = $search_result->post_title;
-		$text.= "<a href='?q=$post_ID'>$post_title</a><br><br>\n";
+	else{
+    	$objResponse = new xajaxResponse();
+    	$objResponse->addAssign("div1","innerHTML","请在搜索框中输入想要查找的内容<br/><br/>");
 	}
-	
-	$objResponse = new xajaxResponse();
-	$objResponse->addAssign("div1","innerHTML",$text);
-	$objResponse->addAssign("submit","value","search");
-	$objResponse->addAssign("submit","disabled",false);
 	
 	return $objResponse;
+}
+
+/**** Counter functions ****/
+function count_first_post_date($echo=true){
+    global $gcdb;
+    $request = "SELECT MIN(post_date) FROM $gcdb->posts WHERE post_status = 'publish'";
+    if($echo)
+        echo(mysql2date("F d, Y", $gcdb->get_var($request)));
+    else
+        return ($gcdb->get_var($request));
+}
+function count_last_post_date($echo=true){
+    global $gcdb;
+    $request = "SELECT MAX(post_date) FROM $gcdb->posts WHERE post_status = 'publish'";
+    if($echo)
+        echo(mysql2date("F d, Y", $gcdb->get_var($request)));
+    else
+        return ($gcdb->get_var($request));
+}
+function count_total_posts($echo=true){
+    global $gcdb;
+    $request = "SELECT COUNT(*) FROM $gcdb->posts WHERE post_status = 'publish'";
+    if($echo)
+        echo($gcdb->get_var($request));
+    else
+        return ($gcdb->get_var($request));
+}
+function count_total_comments($echo=true){
+    global $gcdb;
+    $request = "SELECT COUNT(*) FROM $gcdb->comments WHERE comment_approved != 'spam'";
+    if($echo)
+        echo($gcdb->get_var($request));
+    else
+        return ($gcdb->get_var($request));
+}
+function count_total_days($echo=true){
+    $datetime=count_first_post_date(false);
+    
+	$leaves_starttime_hours = mysql2date('G', $datetime);
+	$leaves_starttime_mins = mysql2date('i', $datetime);
+	$leaves_starttime_month = mysql2date('n', $datetime);
+	$leaves_starttime_day = mysql2date('d', $datetime);
+	$leaves_starttime_year = mysql2date('Y', $datetime);
+	
+	$start_time_value=mktime($leaves_starttime_hours,$leaves_starttime_mins,1,
+                            $leaves_starttime_month,$leaves_starttime_day,$leaves_starttime_year);
+	$end_time_value=time();
+
+	$total_secs=(int)$end_time_value-(int)$start_time_value;
+	$total_mins=(int)$total_secs/60;
+	$total_hours=(int)$total_mins/60;
+
+	$total_days=(int)($total_hours/24); // 即????的相差天?
+	
+    if($echo)
+        echo($total_days);
+    else
+        return $total_days;
+}
+function count_posts_per_week(){
+    echo(sprintf("%.2f",count_total_posts(false)/count_total_days(false)*7));
+}
+function count_comments_per_post(){
+    echo(sprintf("%.2f",count_total_comments(false)/count_total_posts(false)));
 }
 
 /**** Feed functions ****/

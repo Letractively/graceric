@@ -40,6 +40,7 @@ class DB_Query {
 	var $is_about = false;
 	var $is_links = false;
 	var $is_tag = false;
+	var $is_x = false;
 
 	function DB_Query ($query = '' ) {
 		global $posts, $post;
@@ -52,7 +53,7 @@ class DB_Query {
 		$this->query($query);
 		
 		// The homepage, detail page and month archive page need to load the posts object
-		if ($this->is_home || $this->is_page || $this->is_month)
+		if ($this->is_home || $this->is_page || $this->is_month || $this->is_x)
 		{
 			$posts = $this->get_post();
 		}
@@ -73,6 +74,7 @@ class DB_Query {
 		$this->is_links = false;
 		$this->is_tag = false;
 		$this->is_feed = false;
+		$this->is_x = false;
 
 		unset($this->posts);
 		unset($this->query);
@@ -146,7 +148,11 @@ class DB_Query {
 			
 			$this->is_feed = true;
 		}
-		if (  !($this->is_archive || $this->is_page || $this->is_search || $this->is_tags || $this->is_about || $this->is_tag || $this->is_links || $this->is_feed)) {
+		elseif (isset($qv['x'])) {
+			
+			$this->is_x = true;
+		}
+		if (  !($this->is_archive || $this->is_page || $this->is_search || $this->is_tags || $this->is_about || $this->is_tag || $this->is_links || $this->is_feed || $this->is_x)) {
 			$this->is_home = true;
 		}
 	}
@@ -207,6 +213,7 @@ class DB_Query {
 			{
 			     $request .= " AND show_in_home = 'yes'";
 			}
+			$request .= " AND ping_status = 'open'";
 			$request .= " ORDER BY post_date DESC";
 			$request .= " LIMIT ".get_option('home_post_number');
 		}
@@ -225,6 +232,24 @@ class DB_Query {
 			}
 			$request .= " ORDER BY post_date DESC";
 		}
+		
+		// Get db request for is_x
+		if ( $this->is_x)
+		{
+			$x = $gcdb->escape($this->query_vars['x']);
+			$request2 = "SELECT post_ID FROM $gcdb->x WHERE x_name='$x'";
+			$q = $gcdb->get_var($request2);
+			$q = (int)$gcdb->escape($q);
+			
+			$request = "SELECT ID, post_date, post_title, post_content,comment_status,show_in_home,comment_status FROM $gcdb->posts";
+			$request .= " WHERE ID=".$q;
+			$request .= " AND post_status = 'publish'";
+			if(!user_is_auth())
+			{
+			     $request .= " AND show_in_home = 'yes'";
+			}
+			$request .= " LIMIT 1";
+		}
 
 		$this->posts = $gcdb->get_results($request);
 		$this->post_count = count($this->posts);
@@ -236,18 +261,8 @@ class DB_Query {
 	function get_comments_number() {
 		global $gcdb;
 		
-		// Get db request for is_page
-		/*
-		if ( $this->is_page)
-		{
-			$q = $gcdb->escape($this->query_vars['q']);
-			$request = "SELECT COUNT(*) FROM $gcdb->comments";
-			$request .= " WHERE comment_post_ID=".$q;
-			$request .= " AND comment_approved='1'";
-		}*/
-		
-		// Get db request for is_home
-		if ($this->is_home || $this->is_page || $this->is_month)
+		// Get db request to count comment number for one post
+		if ($this->is_home || $this->is_page || $this->is_month || $this->is_x)
 		{
 			$current_postID = $this->posts[$this->current_post]->ID;
 			$current_postID = $gcdb->escape($current_postID);
@@ -300,17 +315,16 @@ class DB_Query {
 			$gcdb->query($request);
 			
 			// send email to admin
-			/*
-			$admin_mail = get_settings('admin_email');
-			$post_url = get_settings('base_url')."/?q=".$current_postID;
-			
-			$mail_content=stripslashes($comm_content); 
-		   	$subject = "a new blog comment by $comm_name";
-		   	$headers .= "From: noreply@ericfish.com\nReply-To: $comm_e_mail";
-			$text = "$comm_name wrote: $mail_content\n\nCheck out the post at\n$post_url&comment#".bin2hex($comm_date)."\n\n$comm_date, IP:[$comm_author_ip]";
-			mail($admin_mail, $subject, $text , $headers);
-			*/
-			
+			if(get_settings('comment_email')=="yes"){
+    			$admin_mail = get_settings('admin_email');
+    			$post_url = get_settings('base_url')."/?q=".$current_postID;
+    			
+    			$mail_content=stripslashes($comm_content); 
+    		   	$subject = "a new blog comment by $comm_name";
+    		   	$headers .= "From: noreply@ericfish.com\nReply-To: $comm_e_mail";
+    			$text = "$comm_name wrote: $mail_content\n\nCheck out the post at\n$post_url&comment#".bin2hex($comm_date)."\n\n$comm_date, IP:[$comm_author_ip]";
+    			mail($admin_mail, $subject, $text , $headers);		
+			}	
 		}
 	}
 }

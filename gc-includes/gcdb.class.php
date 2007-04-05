@@ -237,6 +237,7 @@ class gcdb {
 	// se docs for usage and info
 
 	function get_col($query = null , $x = 0) {
+
 		if ( $query )
 			$this->query($query);
 
@@ -244,7 +245,8 @@ class gcdb {
 		for ( $i=0; $i < count($this->last_result); $i++ ) {
 			$new_array[$i] = $this->get_var(null, $x, $i);
 		}
-		return $new_array;
+		if(isset($new_array))
+		  return $new_array;
 	}
 
 	// ==================================================================
