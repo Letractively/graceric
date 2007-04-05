@@ -26,7 +26,7 @@ function initPage() {
 	
 	$base_url = get_option('base_url');
 	
-	global $gcdb;
+	global $gcdb; 
 	
 	$p1_posts = $gcdb->get_results($request);
 		
@@ -444,7 +444,7 @@ function idAddOne(){
 }
 
 // save post - new and edit
-function savePost($post_id,$post_title,$post_content,$post_tags,$show_in_home,$post_status,$comment_status) {
+function savePost($post_id,$post_title,$post_content,$post_tags,$show_in_home,$post_status,$comment_status,$ping_status) {
 	global $gcdb;
 		
 	// check is id exist
@@ -455,7 +455,7 @@ function savePost($post_id,$post_title,$post_content,$post_tags,$show_in_home,$p
 	// id not exist - create new - insert
 	if($exist_no == 0) {
 		// insert post
-		$requestnewpost = "INSERT INTO $gcdb->posts (ID,post_title,post_content,post_date,show_in_home,post_status,comment_status) VALUES ($post_id,'$post_title','$post_content','$post_date','$show_in_home','$post_status','$comment_status')";
+		$requestnewpost = "INSERT INTO $gcdb->posts (ID,post_title,post_content,post_date,show_in_home,post_status,comment_status,ping_status) VALUES ($post_id,'$post_title','$post_content','$post_date','$show_in_home','$post_status','$comment_status','$ping_status')";
 		$gcdb->query($requestnewpost);
 		
 		// gc_db id + 1
@@ -469,7 +469,7 @@ function savePost($post_id,$post_title,$post_content,$post_tags,$show_in_home,$p
 	// id exist - edit - update
 	else {
 		// update post
-		$requesteditpost = "UPDATE $gcdb->posts SET post_title='$post_title',post_content='$post_content',post_modified='$post_date',show_in_home='$show_in_home',post_status='$post_status',comment_status='$comment_status' WHERE ID=$post_id";
+		$requesteditpost = "UPDATE $gcdb->posts SET post_title='$post_title',post_content='$post_content',post_modified='$post_date',show_in_home='$show_in_home',post_status='$post_status',comment_status='$comment_status',ping_status='$ping_status' WHERE ID=$post_id";
 		$gcdb->query($requesteditpost);
 	
 		// delete already tags related
@@ -974,6 +974,112 @@ function saveAddSpam($spam_value,$spam_type)
 	return $objResponse;
 }
 
+/**** editx.php ****/
+function initEditX() {
+	global $gcdb;
+	
+	$request = "SELECT  x_ID,post_ID,x_name  FROM $gcdb->x ORDER BY x_ID";
+	
+	$xs = $gcdb->get_results($request);
+	
+	for($i=0;$i<count($xs);$i++)
+	{
+		if(isset($xs[$i]))
+		{
+			$x = $xs[$i];
+			$x_ID = $x->x_ID;
+			$post_ID = $x->post_ID;
+			$x_name = $x->x_name;
+			
+			echo("<tr class=\"withover\">");
+			echo("<td class=\"count\"><span>$x_ID<span></td>");
+			echo("<td class=\"short\"><input type=\"text\" id=\"post$x_ID\" name=\"post$x_ID\" value=\"$post_ID\" size=\"15\" /></td>");
+			echo("<td class=\"short\"><input type=\"text\" id=\"name$x_ID\" name=\"name$x_ID\" value=\"$x_name\" size=\"50\" /></td>");
+			echo("<td class=\"short\"><input type=\"submit\" value=\"Save\" onclick=\"javascript:xajax_saveEditX($x_ID,document.getElementById('post$x_ID').value,document.getElementById('name$x_ID').value);javascript:document.getElementById('lo').style.display='block';javascript:document.getElementById('lo').innerHTML='Saving';javascript:document.getElementById('lo').style.background='#c44';\" /></td>");
+			echo("<td class=\"short\"><input type=\"submit\" value=\"Delete\" onclick=\"javascript:xajax_saveDeleteX($x_ID);javascript:document.getElementById('lo').style.display='block';javascript:document.getElementById('lo').innerHTML='Deleting';javascript:document.getElementById('lo').style.background='#c44';\" /></td>");
+			echo("</tr>");
+		}
+	}
+}
+
+function saveEditX($x_ID,$post_ID,$x_name){
+	global $gcdb;
+	$objResponse = new xajaxResponse();
+	
+	if($post_ID!=""&&is_int($post_ID)&&$x_name!=""&&($x_name!="q"||$x_name!="archive"||$x_name!="search"||$x_name!="about"||$x_name!="links"||$x_name!="tags"||$x_name!="tag"||$x_name!="month"||$x_name!="comment"||$x_name!="feed"))
+	{
+	    $post_ID = iconv( "UTF-8", "GB2312//IGNORE" , $post_ID);
+	    $x_name = iconv( "UTF-8", "GB2312//IGNORE" , $x_name);
+    	$request1 = "UPDATE $gcdb->x SET post_ID='$post_ID',x_name='$x_name' WHERE x_ID=$x_ID";
+    	$gcdb->query($request1);
+    
+    	//$objResponse->addAlert("Option'".$option_ID."' - Saved");
+    	$objResponse->addAssign("lo","innerHTML",'Saved');
+    	$objResponse->addAssign("lo","style.background",'green');
+	}
+	else {
+    	$objResponse->addAssign("lo","innerHTML",'输入错误');
+    	$objResponse->addAssign("lo","style.background",'#c44');  
+	}
+
+	return $objResponse;
+}
+
+function saveDeleteX($x_ID){
+	global $gcdb;
+	$objResponse = new xajaxResponse();
+	$request1 = "SELECT COUNT(x_ID) FROM $gcdb->x WHERE x_ID=$x_ID";
+	$num=$gcdb->get_var($request1);
+	
+	if($num==1)
+	{    
+    	$request2 = "DELETE FROM $gcdb->x WHERE x_ID=$x_ID";
+    	$gcdb->query($request2);
+    
+    	//$objResponse->addAlert("Option'".$option_ID."' - Saved");
+    	$objResponse->addAssign("lo","innerHTML",'Deleted');
+    	$objResponse->addAssign("lo","style.background",'green');
+	}
+	else {
+    	$objResponse->addAssign("lo","innerHTML",'无法删除');
+    	$objResponse->addAssign("lo","style.background",'#c44');
+	}
+
+	return $objResponse;
+}
+
+function saveAddX($post_ID,$x_name)
+{
+	global $gcdb;
+	$objResponse = new xajaxResponse();
+	
+	if ($post_ID!=""&&is_int($post_ID))
+	{
+    	$objResponse->addAssign("lo","innerHTML",'值不能为空且必需是数字');
+    	$objResponse->addAssign("lo","style.background",'#c44');  
+	}
+	elseif($x_name==""||($x_name=="q"||$x_name=="archive"||$x_name=="search"||$x_name=="about"||$x_name=="links"||$x_name=="tags"||$x_name=="tag"||$x_name=="month"||$x_name=="comment"||$x_name=="feed"))
+	{
+    	$objResponse->addAssign("lo","innerHTML",'关键字错误');
+    	$objResponse->addAssign("lo","style.background",'#c44');
+	}
+	else {
+	    $post_ID = iconv( "UTF-8", "GB2312//IGNORE" , $post_ID);
+	    $x_name = iconv( "UTF-8", "GB2312//IGNORE" , $x_name);
+    
+    	$request1 = "INSERT INTO $gcdb->x (post_ID,x_name) VALUES ('$post_ID','$x_name')";
+    	$gcdb->query($request1);
+    
+    	//$objResponse->addAlert("Option'".$option_ID."' - Saved");
+    	$objResponse->addAssign("a_x_postid","value",'');
+    	$objResponse->addAssign("a_x_name","value",'');
+    	$objResponse->addAssign("lo","innerHTML",'X Added');
+    	$objResponse->addAssign("lo","style.background",'green');
+	}
+
+	return $objResponse;
+}
+
 /**** All Pages Template function ****/
 function getNavBar() {
     $navBar = '<A href="index.php">Edit Posts</A> | 
@@ -982,6 +1088,7 @@ function getNavBar() {
                 <A href="editabout.php">Edit About</A> | 
                 <A href="editlinks.php">Edit Links</A> | 
                 <A href="editspams.php">Spams</A> | 
+                <A href="editx.php">X</A> | 
                 <A href="logout.php">Sign Out</A>&nbsp;&nbsp;';
     echo $navBar;
 }

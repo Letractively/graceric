@@ -1,6 +1,3 @@
-
-
-
 INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
 VALUES (
 NULL , '0', 'prev_links', 'Y', '1', '1', '20', '8', 'Á´½Óµ½ÒÔÇ°µÄblogµÄÁ´½Ó¸öÊý', '1', 'yes'
@@ -29,6 +26,10 @@ NULL , '0', 'keywords', 'Y', '1', 'blog website', '20', '8', 'ÍøÕ¾¹Ø¼ü×Ö(¿Õ¸ñ·Ö¸
 INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
 VALUES (
 NULL , '0', 'blog_author', 'Y', '1', 'anonymous', '20', '8', '×÷ÕßÐÕÃû', '1', 'yes'
+);
+INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
+VALUES (
+NULL , '0', 'comment_email', 'Y', '1', 'no', '20', '8', 'ÊÇ·ñ·¢ËÍÐÂÁôÑÔÓÊ¼þ,yes:·¢ËÍ', '1', 'yes'
 );
 
 UPDATE `gcdb_users` SET `user_pass` = '21232f297a57a5a743894a0e4a801fc3' WHERE `ID` =1 LIMIT 1 ;

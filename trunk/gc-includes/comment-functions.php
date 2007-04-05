@@ -93,7 +93,7 @@ function saveSpamComment($comment_ID){
 
 /**** check comment validations ****/
 function is_comment_valid($comm_name,$comm_e_mail,$comm_website,$comm_content){
-    global $error_message;
+    global  $gcdb,$error_message;
 	$is_comment_valid = true;
 		
 	//require name
@@ -109,39 +109,65 @@ function is_comment_valid($comm_name,$comm_e_mail,$comm_website,$comm_content){
 	}
 	
 	//check name allowed
-	$garbage = "localhost";	// garbage information
-	$pos_found = strpos($comm_name,$garbage);
-	if ($pos_found !== false)
+	$request1 = "SELECT spam_value FROM $gcdb->spams WHERE spam_type = 'name'";
+	$name_blacklist = $gcdb->get_col($request1);
+	for($i=0;$i<count($name_blacklist);$i++)
 	{
-		$is_comment_valid = false;
-		$error_message = "<div class='blogkrow' style='color: red'><b>Sorry, this name is not allow to post comment.</b></div>";
+    	if (is_garbage($comm_name,$name_blacklist[$i]))
+    	{
+    		$is_comment_valid = false;
+    		$error_message = "<div class='blogkrow' style='color: red'><b>Sorry, this name is not allow to post comment.</b></div>";
+    		break;
+    	}
 	}
-
-	//check email allowed
 	
-	$pos_found = strpos($comm_e_mail,$garbage);
-	if ($pos_found !== false)
+	//check email allowed
+	$request2 = "SELECT spam_value FROM $gcdb->spams WHERE spam_type = 'email'";
+	$email_blacklist = $gcdb->get_col($request2);
+	for($i=0;$i<count($email_blacklist);$i++)
 	{
-		$is_comment_valid = false;
-		$error_message = "<div class='blogkrow' style='color: red'><b>Sorry, this email is not allow to post comment.</b></div>";
+    	if (is_garbage($comm_e_mail,$email_blacklist[$i]))
+    	{
+    		$is_comment_valid = false;
+    		$error_message = "<div class='blogkrow' style='color: red'><b>Sorry, this email is not allow to post comment.</b></div>";
+    		break;
+    	}
 	}
 	
 	//check user ip allowed
+	$request3 = "SELECT spam_value FROM $gcdb->spams WHERE spam_type = 'ip'";
+	$ip_blacklist = $gcdb->get_col($request3);
+	for($i=0;$i<count($ip_blacklist);$i++)
+	{
+    	if (is_garbage(get_visitor_ip(),$ip_blacklist[$i]))
+    	{
+    		$is_comment_valid = false;
+    		$error_message = "<div class='blogkrow' style='color: red'><b>Sorry, your IP address is not allow to post comment.</b></div>";
+    		break;
+    	}
+	}
 	
 	//check comment content for garbage information
-	if (is_garbage_comment($comm_content)) {
-		$is_comment_valid = false;
-		$error_message = "<div class='blogkrow' style='color: red'><b>No 'http://' is allow in comment content, <br/>please remove 'http://' and post again, 3x</b></div>";
+	$request4 = "SELECT spam_value FROM $gcdb->spams WHERE spam_type = 'text'";
+	$content_blacklist = $gcdb->get_col($request4);
+	for($i=0;$i<count($content_blacklist);$i++)
+	{
+    	if (is_garbage($comm_content,$content_blacklist[$i]))
+    	{
+    		$is_comment_valid = false;
+    		$error_message = "<div class='blogkrow' style='color: red'><b>对不起您输入的内容中包含非法内容，比如'http://'等，为了避免垃圾信息，请去掉这些字符后重新提交。谢谢。</b></div>";
+    		break;
+    	}
 	}
 	
 	return $is_comment_valid;
 }
 
-// find garbage information in comment content, if it is garbage comment return true
-function is_garbage_comment($comment_content) {
-	// filter garbage comment
-	$garbage = "http://";	// garbage information
-	$pos_found = strpos($comment_content,$garbage);
+// find garbage information in comment content
+// if found garbage in input return true
+// else return false
+function is_garbage($content,$garbage) {
+	$pos_found = strpos($content,$garbage);
 	if ($pos_found !== false)
 		return true;
 	else
@@ -204,6 +230,7 @@ function allow_comment(){
 function get_visitor_ip() {
 	
     //For 512j apache server
+    /*
 	global $HTTP_X_FORWARDED_FOR;
 	
 	if($HTTP_X_FORWARDED_FOR!="")
@@ -218,10 +245,10 @@ function get_visitor_ip() {
 	else
 		$REMOTE_ADDR="";
 	
-	return $REMOTE_ADDR;
+	return $REMOTE_ADDR;*/
 	
 	//For other servers, you can just use the following sentence to replace all above
-	//return $_SERVER['REMOTE_ADDR'];
+	return $_SERVER['REMOTE_ADDR'];
 }
 
 ?>

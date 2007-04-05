@@ -36,11 +36,11 @@
 			
 			<BR>
 			
-			<BR><BR><a href="./?feed" target=_blank>rss</A>
+			<BR><BR><a href="<?get_blog_rsslink();?>" target="_blank">rss</A>
 			
 			
 			<BR><BR><BR>
-			<BR><BR><a href="http://www.ericfish.com" target=_blank>ericfish</A>
+			<BR><BR><a href="http://www.ericfish.com/graceric/" target=_blank>graceric</A>
 			<BR><BR><a href="http://creativecommons.org/licenses/by-nc-sa/2.0/" target=_blank>CC Copyright</a>
 			<BR><BR><BR>
 		</span>

@@ -15,12 +15,18 @@
 */
 
 // ** MySQL settings ** //
+// ** 数据库设置 ** //
 define('DB_NAME', 'gc');     // The name of the database
-define('DB_USER', '12721db');     // Your MySQL username
-define('DB_PASSWORD', '1q2w3e4r'); // ...and password
+define('DB_USER', 'root');     // Your MySQL username
+define('DB_PASSWORD', ''); // ...and password
 define('DB_HOST', 'localhost');     // 99% chance you won't need to change this value
 
+// Change the prefix if you want to have multiple blogs in a single database.
+// 表前缀
+$table_prefix  = 'gcdb_';   // example: 'gcdb_' or 'b2' or 'mylogin_'
+
 /* Stop editing. */
+/* 下面的内容不需要编辑. */
 
 define('ABSPATH', dirname(__FILE__).'/');
 
@@ -28,14 +34,15 @@ define('WPINC', 'gc-includes');
 require_once (ABSPATH . WPINC . '/gcdb.class.php');
 
 // Table names
-$gcdb->posts            = 'gcdb_posts';
-$gcdb->users            = 'gcdb_users';
-$gcdb->tags       		= 'gcdb_tags';
-$gcdb->post2tag         = 'gcdb_post2tag';
-$gcdb->comments         = 'gcdb_comments';
-$gcdb->links            = 'gcdb_links';
-$gcdb->options          = 'gcdb_options';
-$gcdb->id          		= 'gcdb_id';
-$gcdb->spams          	= 'gcdb_spams';
+$gcdb->posts            = $table_prefix . 'posts';
+$gcdb->users            = $table_prefix . 'users';
+$gcdb->tags       		= $table_prefix . 'tags';
+$gcdb->post2tag         = $table_prefix . 'post2tag';
+$gcdb->comments         = $table_prefix . 'comments';
+$gcdb->links            = $table_prefix . 'links';
+$gcdb->options          = $table_prefix . 'options';
+$gcdb->id          		= $table_prefix . 'id';
+$gcdb->spams          	= $table_prefix . 'spams';
+$gcdb->x          	    = $table_prefix . 'x';
 
 ?>

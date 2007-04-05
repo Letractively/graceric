@@ -56,7 +56,7 @@ if(user_is_auth())
 		</div>
 
 	<?php endwhile; else: ?>
-		<?php header("location:404.php"); ?>
+		<?php echo("<div class=\"blogbody\"><P>您访问的页面不存在，<br/>请去<a href=\"./?search\">搜索</a>页面查找相关的内容。</P></div><br/><br/><br/><br/><br/><br/><br/>"); ?>
 	<?php endif; ?>
 
 				<span class="lastpost">

@@ -8,7 +8,7 @@ auth_redirect();
 if(isset($_REQUEST['q'])) {
 	$post_id=$_REQUEST['q'];
 	global $gcdb;
-	$request = "SELECT post_title,post_content,show_in_home,comment_status FROM $gcdb->posts WHERE ID = $post_id";
+	$request = "SELECT post_title,post_content,show_in_home,comment_status,ping_status  FROM $gcdb->posts WHERE ID = $post_id";
 	$post = $gcdb->get_row($request);
 	$post_title = $post->post_title;
 	$post_content = $post->post_content;
@@ -21,6 +21,10 @@ if(isset($_REQUEST['q'])) {
 		$allow_comment = true;
 	else
 		$allow_comment = false;
+	if($post->ping_status == 'open')
+		$home_hide = true;
+	else
+		$home_hide = false;
 }
 // create new page init
 else {
@@ -33,6 +37,8 @@ else {
 	$post_id = getNextId();
 	$post_tags = "";
 	$is_show = true;
+	$allow_comment = true;
+	$home_hide = true;
 }
 
 ?>
@@ -128,8 +134,9 @@ function customSave(id, content) {
                     <TBODY>
                     <TR id=tr_new-page-2-list-view>
                       <TD>
-                      Can everyone see it? Public <input type="radio" value="yes" <? if($is_show)echo('checked')?> name="show_in_home"> Private <input type="radio" name="show_in_home" value="no" <? if(!$is_show)echo('checked')?>> | 
-                      Allow comments? Yes <input type="radio" value="open" <? if($allow_comment)echo('checked')?> name="allow_comment"> No <input type="radio" name="allow_comment" value="closed" <? if(!$allow_comment)echo('checked')?>>                      
+                      <b>Can everyone see it?</b> Public <input type="radio" value="yes" <? if($is_show)echo('checked')?> name="show_in_home"> Private <input type="radio" name="show_in_home" value="no" <? if(!$is_show)echo('checked')?>> | 
+                      <b>Allow comments?</b> Yes <input type="radio" value="open" <? if($allow_comment)echo('checked')?> name="allow_comment"> No <input type="radio" name="allow_comment" value="closed" <? if(!$allow_comment)echo('checked')?>> | 
+                      <b>Display on Homepage?</b> Show <input type="radio" value="open" <? if($home_hide)echo('checked')?> name="home_hide"> Hide <input type="radio" name="home_hide" value="closed" <? if(!$home_hide)echo('checked')?>>                      
                       </TD></TR></TBODY></TABLE></TD></TR>
               <TR id=tr_list-view-sortRow>
                 <TD> &nbsp;&nbsp;&nbsp;Tags:
