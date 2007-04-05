@@ -14,7 +14,15 @@
 *  $URL$
 */
 ?>
-
+<?php
+if(user_is_auth())
+{
+    $xajax = new xajax();
+    //$xajax->debugOn(); // Uncomment this line to turn debugging on
+    $xajax->registerFunction("saveSpamComment");
+    $xajax->processRequests();
+}
+?>
 <?php get_header(); ?>
 
 <?php get_leftbar(); ?>
@@ -29,7 +37,7 @@
 		</div>
 
 		<div class="blogbody">
-		<P><font color="#999999"><b><?php the_post_title(); ?></b></font>
+		<P><? get_lock_icon();?> <font color="#999999"><b><?php the_post_title(); ?></b></font>
 		
 		<span class='archivepage'><font color="#999999">
 		(tags:<?php get_post_tags();?>)

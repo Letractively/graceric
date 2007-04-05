@@ -14,14 +14,13 @@
 *  $URL$
 */
 
-
 // ** MySQL settings ** //
 define('DB_NAME', 'gc');     // The name of the database
-define('DB_USER', 'graceric');     // Your MySQL username
-define('DB_PASSWORD', 'graceric'); // ...and password
+define('DB_USER', '12721db');     // Your MySQL username
+define('DB_PASSWORD', '1q2w3e4r'); // ...and password
 define('DB_HOST', 'localhost');     // 99% chance you won't need to change this value
 
-/* Stop editing.下面的内容请勿修改 */
+/* Stop editing. */
 
 define('ABSPATH', dirname(__FILE__).'/');
 
@@ -37,4 +36,6 @@ $gcdb->comments         = 'gcdb_comments';
 $gcdb->links            = 'gcdb_links';
 $gcdb->options          = 'gcdb_options';
 $gcdb->id          		= 'gcdb_id';
+$gcdb->spams          	= 'gcdb_spams';
+
 ?>

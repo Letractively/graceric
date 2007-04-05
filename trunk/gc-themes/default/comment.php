@@ -30,10 +30,10 @@
   			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_name" value="<? get_cookie_name(); ?>" size="32" maxlength="30"/> (name)</span>
 		</div>
 		<div class="blogkrow">
- 			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_e_mail" value="<?get_cookie_mail(); ?>" size="32" maxlength="30"/> (e-mail)</span>
+ 			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_e_mail" value="<?get_cookie_mail(); ?>" size="32" maxlength="30"/> (email: not visible to others)</span>
 		</div>
     	<div class="blogkrow">
-  			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_website"  size="32" value="<? get_cookie_www();?>" /> (website)</span>
+  			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_website"  size="32" value="<? get_cookie_www();?>" /> (url)</span>
 		</div>
 		<div class="blogkrow">
   			<span class="blogkRightClmn">
@@ -45,7 +45,7 @@
 			</span>
 		</div>
 		<div class="blogkrow">
- 			<input type="checkbox" name="rem" value="1" checked="checked"/>remember me<br/>
+ 			<input type="checkbox" name="rememberMe" value="1" checked="checked"/>remember me<br/>
 		</div>
  	</div>
  	<?php endif; ?>
