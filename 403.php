@@ -14,6 +14,5 @@
 *  $URL$
 */
 
-//header("location:/?search");
+header("location:./?search");
 ?>
-403 error

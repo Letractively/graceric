@@ -14,5 +14,5 @@
 *  $URL$
 */
 
-//header("location:/?search");
+header("location:./?search");
 ?>
