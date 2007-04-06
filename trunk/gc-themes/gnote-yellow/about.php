@@ -13,7 +13,23 @@
 
 <div class="blogbody">
 <p>
-<?php get_blog_about_text(); ?><br/><br/><br/><br/><br/><br/>
+	<?php get_blog_about_text(); ?><br/><br/>
+</p>
+
+
+<div class="date">	
+		<img src="./<?=TPPATH?>/pic/bullet.gif" width="7" height="7"> Site Statics
+	</div>	
+<p>
+	<p><br/>
+	First post: <?php count_first_post_date(); ?><br/>
+	Last post: <?php count_last_post_date(); ?><br/>
+	Total days: <?php count_total_days(); ?><br/>
+	Total posts: <?php count_total_posts(); ?><br/>
+	Total comments: <?php count_total_comments(); ?><br/>
+	Posts/week: <?php count_posts_per_week(); ?><br/>
+	Comments/post: <?php count_comments_per_post(); ?>
+	</p><br/><br/><br/>
 </p>
 </div>
           

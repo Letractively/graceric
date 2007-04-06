@@ -60,7 +60,8 @@ function processSearch($keyword){
 	global $gcdb;
 	
 	$keyword = trim($keyword);
-	$keyword = iconv( "UTF-8", "gb2312" , $keyword);
+	if(get_option('charset'=='gb2312'))
+	   $keyword = iconv( "UTF-8", "gb2312" , $keyword);
 	$keyword = $gcdb->escape($keyword);
 	$keywords = explode(" ", $keyword);
 	$keyword_count = count($keywords);
@@ -615,7 +616,8 @@ function saveEditOption($option_ID, $option_value)
 	global $gcdb;
 	$objResponse = new xajaxResponse();
 
-	$option_value = iconv( "UTF-8", "GB2312//IGNORE" , $option_value);
+	if(get_option('charset'=='gb2312'))
+	   $option_value = iconv( "UTF-8", "GB2312//IGNORE" , $option_value);
 	$option_value = trim($option_value);
 	//$option_value = apply_filters($option_value);
 
@@ -634,7 +636,8 @@ function saveTplOption($option_value)
 	global $gcdb;
 	$objResponse = new xajaxResponse();
 
-	$option_value = iconv( "UTF-8", "GB2312//IGNORE" , $option_value);
+	if(get_option('charset'=='gb2312'))
+	   $option_value = iconv( "UTF-8", "GB2312//IGNORE" , $option_value);
 	$option_value = trim($option_value);
 	//$option_value = apply_filters($option_value);
 
@@ -698,8 +701,10 @@ function saveEditUser($user_id,$user_pass)
 	global $gcdb;
 	$objResponse = new xajaxResponse();
 	
-	$user_id = iconv( "UTF-8", "GB2312//IGNORE" , $user_id);
-	$user_pass = iconv( "UTF-8", "GB2312//IGNORE" , $user_pass);
+	if(get_option('charset'=='gb2312')){
+	   $user_id = iconv( "UTF-8", "GB2312//IGNORE" , $user_id);
+	   $user_pass = iconv( "UTF-8", "GB2312//IGNORE" , $user_pass);
+	}
 	if($user_pass!="")
 	{
     	$user_pass=md5($user_pass);
@@ -735,8 +740,10 @@ function saveAddUser($user_name,$user_pass)
     	$objResponse->addAssign("lo","style.background",'#c44');  
 	}
 	else {
-	    $user_name = iconv( "UTF-8", "GB2312//IGNORE" , $user_name);
-	    $user_pass = iconv( "UTF-8", "GB2312//IGNORE" , $user_pass);
+	   if(get_option('charset'=='gb2312')){
+	       $user_name = iconv( "UTF-8", "GB2312//IGNORE" , $user_name);
+	       $user_pass = iconv( "UTF-8", "GB2312//IGNORE" , $user_pass);
+	   }
     	$user_pass=md5($user_pass);
     
     	$request1 = "INSERT INTO $gcdb->users (user_login,user_pass) VALUES ('$user_name','$user_pass')";
@@ -796,8 +803,10 @@ function saveEditLink($link_ID,$link_name,$link_url){
 	
 	if($link_name!=""&&$link_url!="")
 	{    
-	    $link_name = iconv( "UTF-8", "GB2312//IGNORE" , $link_name);
-	    $link_url = iconv( "UTF-8", "GB2312//IGNORE" , $link_url);
+	   if(get_option('charset'=='gb2312')){
+	       $link_name = iconv( "UTF-8", "GB2312//IGNORE" , $link_name);
+	       $link_url = iconv( "UTF-8", "GB2312//IGNORE" , $link_url);
+	   }
     	$request1 = "UPDATE $gcdb->links SET link_name='$link_name',link_url='$link_url' WHERE link_ID=$link_ID";
     	$gcdb->query($request1);
     
@@ -852,8 +861,10 @@ function saveAddLink($link_name,$link_url)
     	$objResponse->addAssign("lo","style.background",'#c44');  
 	}
 	else {
-	    $link_name = iconv( "UTF-8", "GB2312//IGNORE" , $link_name);
-	    $link_url = iconv( "UTF-8", "GB2312//IGNORE" , $link_url);
+	   if(get_option('charset'=='gb2312')){
+	       $link_name = iconv( "UTF-8", "GB2312//IGNORE" , $link_name);
+	       $link_url = iconv( "UTF-8", "GB2312//IGNORE" , $link_url);
+	   }
     
     	$request1 = "INSERT INTO $gcdb->links (link_name,link_url) VALUES ('$link_name','$link_url')";
     	$gcdb->query($request1);
@@ -902,8 +913,10 @@ function saveEditSpam($spam_ID,$spam_value,$spam_type){
 	
 	if($spam_value!=""&&($spam_type=="name"||$spam_type=="email"||$spam_type=="text"||$spam_type=="ip"))
 	{
-	    $spam_value = iconv( "UTF-8", "GB2312//IGNORE" , $spam_value);
-	    $spam_type = iconv( "UTF-8", "GB2312//IGNORE" , $spam_type);
+	   if(get_option('charset'=='gb2312')){
+	       $spam_value = iconv( "UTF-8", "GB2312//IGNORE" , $spam_value);
+	       $spam_type = iconv( "UTF-8", "GB2312//IGNORE" , $spam_type);
+	   }
     	$request1 = "UPDATE $gcdb->spams SET spam_value='$spam_value',spam_type='$spam_type' WHERE spam_ID=$spam_ID";
     	$gcdb->query($request1);
     
@@ -958,8 +971,10 @@ function saveAddSpam($spam_value,$spam_type)
     	$objResponse->addAssign("lo","style.background",'#c44');  
 	}
 	else {
-	    $spam_value = iconv( "UTF-8", "GB2312//IGNORE" , $spam_value);
-	    $spam_type = iconv( "UTF-8", "GB2312//IGNORE" , $spam_type);
+	   if(get_option('charset'=='gb2312')){
+	       $spam_value = iconv( "UTF-8", "GB2312//IGNORE" , $spam_value);
+	       $spam_type = iconv( "UTF-8", "GB2312//IGNORE" , $spam_type);
+	   }
     
     	$request1 = "INSERT INTO $gcdb->spams (spam_value,spam_type) VALUES ('$spam_value','$spam_type')";
     	$gcdb->query($request1);
@@ -1008,8 +1023,10 @@ function saveEditX($x_ID,$post_ID,$x_name){
 	
 	if($post_ID!=""&&is_int($post_ID)&&$x_name!=""&&($x_name!="q"||$x_name!="archive"||$x_name!="search"||$x_name!="about"||$x_name!="links"||$x_name!="tags"||$x_name!="tag"||$x_name!="month"||$x_name!="comment"||$x_name!="feed"))
 	{
-	    $post_ID = iconv( "UTF-8", "GB2312//IGNORE" , $post_ID);
-	    $x_name = iconv( "UTF-8", "GB2312//IGNORE" , $x_name);
+	   if(get_option('charset'=='gb2312')){
+	       $post_ID = iconv( "UTF-8", "GB2312//IGNORE" , $post_ID);
+	       $x_name = iconv( "UTF-8", "GB2312//IGNORE" , $x_name);
+	   }
     	$request1 = "UPDATE $gcdb->x SET post_ID='$post_ID',x_name='$x_name' WHERE x_ID=$x_ID";
     	$gcdb->query($request1);
     
@@ -1064,8 +1081,10 @@ function saveAddX($post_ID,$x_name)
     	$objResponse->addAssign("lo","style.background",'#c44');
 	}
 	else {
-	    $post_ID = iconv( "UTF-8", "GB2312//IGNORE" , $post_ID);
-	    $x_name = iconv( "UTF-8", "GB2312//IGNORE" , $x_name);
+	   if(get_option('charset'=='gb2312')){
+	       $post_ID = iconv( "UTF-8", "GB2312//IGNORE" , $post_ID);
+	       $x_name = iconv( "UTF-8", "GB2312//IGNORE" , $x_name);
+	   }
     
     	$request1 = "INSERT INTO $gcdb->x (post_ID,x_name) VALUES ('$post_ID','$x_name')";
     	$gcdb->query($request1);

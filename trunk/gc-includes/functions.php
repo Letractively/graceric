@@ -257,6 +257,40 @@ function get_blog_keywords() {
 }
 
 // Get the rss link from option
+function get_blog_sidebar()
+{    
+    if(is_page()||is_home()) 
+        echo("JOURNAL\n");
+	else
+	   echo("<a href=\"./\">journal</a>\n");
+    
+    if(is_archive()) 
+        echo("<BR><BR>ARCHIVE\n");
+	else
+	   echo("<BR><BR><a href=\"./?archive\">archive</a>\n");
+    
+    if(is_search()) 
+        echo("<BR><BR>SEARCH\n");
+	else
+	   echo("<BR><BR><a href=\"./?search\">search</a>\n");
+    
+    if(is_about()) 
+        echo("<BR><BR>ABOUT\n");
+	else
+	   echo("<BR><BR><a href=\"./?about\">about</a>\n");
+    
+    if(is_links()) 
+        echo("<BR><BR>LINKS\n");
+	else
+	   echo("<BR><BR><a href=\"./?links\">links</a>\n");
+    
+    if(is_tags()) 
+        echo("<BR><BR>TAGS\n");
+	else
+	   echo("<BR><BR><a href=\"./?tags\">tags</a>\n");
+}
+
+// Get the rss link from option
 function get_blog_rsslink()
 {
     $rss_link = get_option('rss_link');
@@ -608,7 +642,8 @@ function processSearchForm($aFormValues)
 	$keyword = trim($aFormValues['keyword']);
 	
 	if($keyword!=""){
-    	$keyword = iconv( "UTF-8", "gb2312" , $keyword);
+	   if(get_option('charset'=='gb2312'))
+    	   $keyword = iconv( "UTF-8", "gb2312" , $keyword);
     	$keyword = $gcdb->escape($keyword);
     	$keywords = explode(" ", $keyword);
     	$keyword_count = count($keywords);
