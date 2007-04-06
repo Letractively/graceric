@@ -14,7 +14,7 @@ $xajax->processRequests();
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Site Settings</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=<?get_blog_charset();?>">
 <LINK href="style/style.css" rel=stylesheet>
 
 <?php $xajax->printJavascript('../gc-includes/'); ?>
@@ -44,9 +44,9 @@ $xajax->processRequests();
 <table>
 <tr class="withover">
     <th class="short">ID</th>
-    <th class="short">名称</th>
-    <th class="short"><span class="info_s">注释</span></th>
-    <th class="short"><span class="info_s">值</span></th>
+    <th class="short">Name</th>
+    <th class="short"><span class="info_s">Description</span></th>
+    <th class="short"><span class="info_s">Value</span></th>
     <th class="short">&nbsp;</th>
     <th class="short">&nbsp;</th>
 </tr>
