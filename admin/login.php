@@ -20,7 +20,7 @@ else
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Login</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=<?get_blog_charset();?>">
 <LINK href="style/style.css" rel=stylesheet>
 </HEAD>
 <BODY>

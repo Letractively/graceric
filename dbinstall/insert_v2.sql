@@ -33,6 +33,7 @@ NULL , '0', 'comment_email', 'Y', '1', 'no', '20', '8', '是否发送新留言邮件,yes:
 );
 
 UPDATE `gcdb_users` SET `user_pass` = '21232f297a57a5a743894a0e4a801fc3' WHERE `ID` =1 LIMIT 1 ;
+
 UPDATE `gcdb_options` SET `option_description` = '管理员邮件地址' WHERE `option_id` =1 AND `blog_id` =0 AND `option_name`= 'admin_email' LIMIT 1 ;
 UPDATE `gcdb_options` SET `option_description` = '首页地址（最后没有斜杠）' WHERE `option_id` =2 AND `blog_id` =0 AND `option_name`= 'base_url' LIMIT 1 ;
 UPDATE `gcdb_options` SET `option_description` = '首页显示的blog数' WHERE `option_id` =3 AND `blog_id` =0 AND `option_name` = 'home_post_number' LIMIT 1 ;

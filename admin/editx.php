@@ -6,14 +6,15 @@ auth_redirect();
 
 $xajax = new xajax(); 
 //$xajax->debugOn(); // Uncomment this line to turn debugging on
-$xajax->registerFunction("saveEditUser");
-$xajax->registerFunction("saveAddUser");
+$xajax->registerFunction("saveEditX");
+$xajax->registerFunction("saveDeleteX");
+$xajax->registerFunction("saveAddX");
 $xajax->processRequests();
 
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>Edit User</TITLE>
+<HTML><HEAD><TITLE>Edit Shortcut Links (X)</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=<?get_blog_charset();?>">
 <LINK href="style/style.css" rel=stylesheet>
 
@@ -44,29 +45,28 @@ $xajax->processRequests();
 <table>
 <tr class="withover">
     <th class="short">ID</th>
-    <th class="short">Username</th>
-    <th class="short"><span class="info_s">New Password</span></th>
+    <th class="short">Post ID</th>
+    <th class="short"><span class="info_s">Shortcut Name</span></th>
     <th class="short">&nbsp;</th>
     <th class="short">&nbsp;</th>
 </tr>
-	<?php initEditUser(); ?>
+	<?php initEditX(); ?>
 </table>
 </DIV>
-<DIV class="withover"><?php get_user_msg(); ?></DIV>
 <br/>
 <DIV id=tr_grid-view class="withover">
-&nbsp; &nbsp;<b>Add New User:</b><br/>
+&nbsp; &nbsp;<b>Add New X:</b><br/>
 <table>
 <tr class="withover">
-<td class="short">&nbsp; &nbsp;Username:</td>
-    <td class="short"><input type="text" name="a_username" id="a_username" tabindex="1" size="20" maxlength="20">
+<td class="short">&nbsp; &nbsp;Post ID:</td>
+    <td class="short"><input type="text" name="a_x_postid" id="a_x_postid" tabindex="1" size="15" >
 </tr>
 <tr class="withover">
-<td class="short">&nbsp; &nbsp;Password:</td>
-    <td class="short"><input type="password" name="a_password" id="a_password" tabindex="2" size="20" maxlength="30"></td>
+<td class="short">&nbsp; &nbsp;Shortcut Name:</td>
+    <td class="short"><input type="text" name="a_x_name" id="a_x_name" tabindex="2" size="50" value="" ></td>
 </tr>
 <tr class="withover">
-    <td class="short">&nbsp; &nbsp;<input type="submit" value="Add User" onclick="javascript:xajax_saveAddUser(document.getElementById('a_username').value,document.getElementById('a_password').value);javascript:document.getElementById('lo').style.display='block';javascript:document.getElementById('lo').innerHTML='Saving';javascript:document.getElementById('lo').style.background='#c44';" /></td>
+    <td class="short">&nbsp; &nbsp;<input type="submit" value="Add X..." onclick="javascript:xajax_saveAddX(document.getElementById('a_x_postid').value,document.getElementById('a_x_name').value);javascript:document.getElementById('lo').style.display='block';javascript:document.getElementById('lo').innerHTML='Saving';javascript:document.getElementById('lo').style.background='#c44';" /></td>
 </tr>
 </table>
 

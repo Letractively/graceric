@@ -18,35 +18,7 @@
 
 	<div id="contentleft">
 		<span class="time">
-			<?php if(is_page()||is_home()): ?>JOURNAL
-			<?php else: ?>
-			<a href="./">journal</a>
-			<?php endif; ?>
-			
-			<?php if(is_archive()): ?><BR><BR>ARCHIVE
-			<?php else: ?>
-			<BR><BR><a href="./?archive">archive</a>
-			<?php endif; ?>
-			
-			<?php if(is_search()): ?><BR><BR>SEARCH
-			<?php else: ?>
-			<BR><BR><a href="./?search">search</a>
-			<?php endif; ?>
-			
-			<?php if(is_about()): ?><BR><BR>ABOUT
-			<?php else: ?>
-			<BR><BR><a href="./?about">about</a>
-			<?php endif; ?>
-			
-			<?php if(is_links()): ?><BR><BR>LINKS
-			<?php else: ?>
-			<BR><BR><a href="./?links">links</a>
-			<?php endif; ?>
-			
-			<?php if(is_tags()): ?><BR><BR>TAGS
-			<?php else: ?>
-			<BR><BR><a href="./?tags">tags</a>
-			<?php endif; ?>
+			<?php get_blog_sidebar(); ?>
 			
 			<BR>
 			
