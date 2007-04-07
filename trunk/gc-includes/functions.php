@@ -450,13 +450,69 @@ function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 	return $j;
 }
 
+function current_time($type, $gmt = 0) {
+	switch ($type) {
+		case 'mysql':
+			if ( $gmt ) $d = gmdate('Y-m-d H:i:s');
+			else $d = gmdate('Y-m-d H:i:s', (time() + (get_option('gmt_offset') * 3600)));
+			return $d;
+			break;
+		case 'timestamp':
+			if ( $gmt ) $d = time();
+			else $d = time() + (get_option('gmt_offset') * 3600);
+			return $d;
+			break;
+	}
+}
+
 // give it a date, it will give you the same date as GMT
 function get_gmt_from_date($string) {
   // note: this only substracts $time_difference from the given date
   preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
   $string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-  $string_gmt = gmdate('Y-m-d H:i:s', $string_time - get_settings('gmt_offset') * 3600);
+  $string_gmt = gmdate('Y-m-d H:i:s', $string_time - get_option('gmt_offset') * 3600);
   return $string_gmt;
+}
+
+// give it a GMT date, it will give you the same date with $time_difference added
+function get_date_from_gmt($string) {
+  // note: this only adds $time_difference to the given date
+  preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
+  $string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+  $string_localtime = gmdate('Y-m-d H:i:s', $string_time + get_option('gmt_offset')*3600);
+  return $string_localtime;
+}
+
+
+// computes an offset in seconds from an iso8601 timezone
+function iso8601_timezone_to_offset($timezone) {
+  // $timezone is either 'Z' or '[+|-]hhmm'
+  if ($timezone == 'Z') {
+    $offset = 0;
+  } else {
+    $sign    = (substr($timezone, 0, 1) == '+') ? 1 : -1;
+    $hours   = intval(substr($timezone, 1, 2));
+    $minutes = intval(substr($timezone, 3, 4)) / 60;
+    $offset  = $sign * 3600 * ($hours + $minutes);
+  }
+  return $offset;
+}
+
+// converts an iso8601 date to MySQL DateTime format used by post_date[_gmt]
+function iso8601_to_datetime($date_string, $timezone = USER) {
+  if ($timezone == GMT) {
+    preg_match('#([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(Z|[\+|\-][0-9]{2,4}){0,1}#', $date_string, $date_bits);
+    if (!empty($date_bits[7])) { // we have a timezone, so let's compute an offset
+      $offset = iso8601_timezone_to_offset($date_bits[7]);
+    } else { // we don't have a timezone, so we assume user local timezone (not server's!)
+      $offset = 3600 * get_settings('gmt_offset');
+    }
+    $timestamp = gmmktime($date_bits[4], $date_bits[5], $date_bits[6], $date_bits[2], $date_bits[3], $date_bits[1]);
+    $timestamp -= $offset;
+    return gmdate('Y-m-d H:i:s', $timestamp);
+  } elseif ($timezone == USER) {
+    return preg_replace('#([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(Z|[\+|\-][0-9]{2,4}){0,1}#', '$1-$2-$3 $4:$5:$6', $date_string);
+  }
 }
 
 /* Options functions */
@@ -642,7 +698,7 @@ function processSearchForm($aFormValues)
 	$keyword = trim($aFormValues['keyword']);
 	
 	if($keyword!=""){
-	   if(get_option('charset'=='gb2312'))
+	   if(get_option('charset')=='gb2312')
     	   $keyword = iconv( "UTF-8", "gb2312" , $keyword);
     	$keyword = $gcdb->escape($keyword);
     	$keywords = explode(" ", $keyword);
@@ -838,5 +894,46 @@ function proofAddSlashes($in_string)
 	} else {
 		return AddSlashes($in_string);
 	}
+}
+
+function wp_specialchars( $text, $quotes = 0 ) {
+	// Like htmlspecialchars except don't double-encode HTML entities
+	$text = str_replace('&&', '&#038;&', $text);
+	$text = str_replace('&&', '&#038;&', $text);
+	$text = preg_replace('/&(?:$|([^#])(?![a-z1-4]{1,8};))/', '&#038;$1', $text);
+	$text = str_replace('<', '&lt;', $text);
+	$text = str_replace('>', '&gt;', $text);
+	if ( 'double' === $quotes ) {
+		$text = str_replace('"', '&quot;', $text);
+	} elseif ( 'single' === $quotes ) {
+		$text = str_replace("'", '&#039;', $text);
+	} elseif ( $quotes ) {
+		$text = str_replace('"', '&quot;', $text);
+		$text = str_replace("'", '&#039;', $text);
+	}
+	return $text;
+}
+
+function add_magic_quotes($array) {
+	foreach ($array as $k => $v) {
+		if (is_array($v)) {
+			$array[$k] = add_magic_quotes($v);
+		} else {
+			$array[$k] = addslashes($v);
+		}
+	}
+	return $array;
+}
+
+function printr($var, $do_not_echo = false) {
+	// from php.net/print_r user contributed notes 
+	ob_start();
+	print_r($var);
+	$code =  htmlentities(ob_get_contents());
+	ob_clean();
+	if (!$do_not_echo) {
+	  echo "<pre>$code</pre>";
+	}
+	return $code;
 }
 ?>

@@ -22,7 +22,7 @@ function initPage() {
 	
 	$begin_id = 0;
 	
-	$request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY post_date DESC LIMIT $begin_id, $end_id";
+	$request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY ID DESC LIMIT $begin_id, $end_id";
 	
 	$base_url = get_option('base_url');
 	
@@ -60,7 +60,7 @@ function processSearch($keyword){
 	global $gcdb;
 	
 	$keyword = trim($keyword);
-	if(get_option('charset'=='gb2312'))
+	if(get_option('charset')=='gb2312')
 	   $keyword = iconv( "UTF-8", "gb2312" , $keyword);
 	$keyword = $gcdb->escape($keyword);
 	$keywords = explode(" ", $keyword);
@@ -142,14 +142,14 @@ function nextPage($begin_post_id){
 	
 	$begin_post_id += get_option('admin_post_number');
 	
-	$request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY post_date DESC LIMIT $begin_post_id, $end_id";
+	$request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY ID DESC LIMIT $begin_post_id, $end_id";
 	
 	$p1_posts = $gcdb->get_results($request);
 	if(count($p1_posts)==0)
 	{
 	   $begin_post_id -= get_option('admin_post_number');
 	
-	   $request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY post_date DESC LIMIT $begin_post_id, $end_id";
+	   $request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY ID DESC LIMIT $begin_post_id, $end_id";
 	
 	   $p1_posts = $gcdb->get_results($request);
 	}
@@ -217,7 +217,7 @@ function prevPage($begin_post_id){
 	if($begin_post_id<0)
 		$begin_post_id = 0;
 	
-	$request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY post_date DESC LIMIT $begin_post_id, $end_id";
+	$request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY ID DESC LIMIT $begin_post_id, $end_id";
 	
 	$p1_posts = $gcdb->get_results($request);
 	$text = "<TABLE id=tr_list-view>
@@ -314,7 +314,7 @@ function updateDelete($post_id) {
 function refreshPage($begin_id) {
 	global $gcdb,$end_id;
 		
-	$request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY post_date DESC LIMIT $begin_id, $end_id";
+	$request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY ID DESC LIMIT $begin_id, $end_id";
 	
 	$base_url = get_option('base_url');
 	
@@ -451,12 +451,13 @@ function savePost($post_id,$post_title,$post_content,$post_tags,$show_in_home,$p
 	// check is id exist
 	$querycheckid = "SELECT COUNT(*) FROM $gcdb->posts WHERE ID = $post_id";
 	$exist_no = $gcdb->get_var($querycheckid);
-	$post_date = date('Y-m-d H:i:s');
+	$post_date = current_time('mysql');
+	$post_date_gmt = current_time('mysql', 1);
 	
 	// id not exist - create new - insert
 	if($exist_no == 0) {
 		// insert post
-		$requestnewpost = "INSERT INTO $gcdb->posts (ID,post_title,post_content,post_date,show_in_home,post_status,comment_status,ping_status) VALUES ($post_id,'$post_title','$post_content','$post_date','$show_in_home','$post_status','$comment_status','$ping_status')";
+		$requestnewpost = "INSERT INTO $gcdb->posts (ID,post_title,post_content,post_date,post_date_gmt,show_in_home,post_status,comment_status,ping_status) VALUES ($post_id,'$post_title','$post_content','$post_date','$post_date_gmt','$show_in_home','$post_status','$comment_status','$ping_status')";
 		$gcdb->query($requestnewpost);
 		
 		// gc_db id + 1
@@ -470,7 +471,7 @@ function savePost($post_id,$post_title,$post_content,$post_tags,$show_in_home,$p
 	// id exist - edit - update
 	else {
 		// update post
-		$requesteditpost = "UPDATE $gcdb->posts SET post_title='$post_title',post_content='$post_content',post_modified='$post_date',show_in_home='$show_in_home',post_status='$post_status',comment_status='$comment_status',ping_status='$ping_status' WHERE ID=$post_id";
+		$requesteditpost = "UPDATE $gcdb->posts SET post_title='$post_title',post_content='$post_content',post_modified='$post_date',post_modified_gmt='$post_date_gmt',show_in_home='$show_in_home',post_status='$post_status',comment_status='$comment_status',ping_status='$ping_status' WHERE ID=$post_id";
 		$gcdb->query($requesteditpost);
 	
 		// delete already tags related
@@ -616,7 +617,7 @@ function saveEditOption($option_ID, $option_value)
 	global $gcdb;
 	$objResponse = new xajaxResponse();
 
-	if(get_option('charset'=='gb2312'))
+	if(get_option('charset')=='gb2312')
 	   $option_value = iconv( "UTF-8", "GB2312//IGNORE" , $option_value);
 	$option_value = trim($option_value);
 	//$option_value = apply_filters($option_value);
@@ -636,7 +637,7 @@ function saveTplOption($option_value)
 	global $gcdb;
 	$objResponse = new xajaxResponse();
 
-	if(get_option('charset'=='gb2312'))
+	if(get_option('charset')=='gb2312')
 	   $option_value = iconv( "UTF-8", "GB2312//IGNORE" , $option_value);
 	$option_value = trim($option_value);
 	//$option_value = apply_filters($option_value);
@@ -701,7 +702,7 @@ function saveEditUser($user_id,$user_pass)
 	global $gcdb;
 	$objResponse = new xajaxResponse();
 	
-	if(get_option('charset'=='gb2312')){
+	if(get_option('charset')=='gb2312'){
 	   $user_id = iconv( "UTF-8", "GB2312//IGNORE" , $user_id);
 	   $user_pass = iconv( "UTF-8", "GB2312//IGNORE" , $user_pass);
 	}
@@ -740,7 +741,7 @@ function saveAddUser($user_name,$user_pass)
     	$objResponse->addAssign("lo","style.background",'#c44');  
 	}
 	else {
-	   if(get_option('charset'=='gb2312')){
+	   if(get_option('charset')=='gb2312'){
 	       $user_name = iconv( "UTF-8", "GB2312//IGNORE" , $user_name);
 	       $user_pass = iconv( "UTF-8", "GB2312//IGNORE" , $user_pass);
 	   }
@@ -765,7 +766,7 @@ function get_user_msg(){
 	$query1 = "SELECT user_pass FROM $gcdb->users WHERE user_login='admin'";
 	$user_pass = $gcdb->get_var($query1);
 	if(md5('admin')==$user_pass)
-	   $msg="<font color='red'>您未更改过admin的初始密码，这将给您的网站带来安全隐患。请给admin用户设定新的密码。</font>";
+	   $msg="<font color='red'>".get_option('change_password_msg')."</font>";
 	echo $msg;
 }
 
@@ -803,7 +804,7 @@ function saveEditLink($link_ID,$link_name,$link_url){
 	
 	if($link_name!=""&&$link_url!="")
 	{    
-	   if(get_option('charset'=='gb2312')){
+	   if(get_option('charset')=='gb2312'){
 	       $link_name = iconv( "UTF-8", "GB2312//IGNORE" , $link_name);
 	       $link_url = iconv( "UTF-8", "GB2312//IGNORE" , $link_url);
 	   }
@@ -861,7 +862,7 @@ function saveAddLink($link_name,$link_url)
     	$objResponse->addAssign("lo","style.background",'#c44');  
 	}
 	else {
-	   if(get_option('charset'=='gb2312')){
+	   if(get_option('charset')=='gb2312'){
 	       $link_name = iconv( "UTF-8", "GB2312//IGNORE" , $link_name);
 	       $link_url = iconv( "UTF-8", "GB2312//IGNORE" , $link_url);
 	   }
@@ -873,6 +874,123 @@ function saveAddLink($link_name,$link_url)
     	$objResponse->addAssign("a_linkname","value",'');
     	$objResponse->addAssign("a_linkurl","value",'http://');
     	$objResponse->addAssign("lo","innerHTML",'Link Added');
+    	$objResponse->addAssign("lo","style.background",'green');
+	}
+
+	return $objResponse;
+}
+
+/**** edittags.php ****/
+function initEditTag() {
+	global $gcdb;
+	
+	$request = "SELECT  tag_ID,tag_name,tag_description,tag_parent FROM $gcdb->tags ORDER BY tag_id DESC";
+	
+	$tags = $gcdb->get_results($request);
+		
+	for($i=0;$i<count($tags);$i++)
+	{
+		if(isset($tags[$i]))
+		{
+			$tag = $tags[$i];
+			$tag_ID = $tag->tag_ID;
+			$tag_name = $tag->tag_name;
+			$tag_description = $tag->tag_description;
+			$tag_parent = (int)$tag->tag_parent;
+			
+			echo("<tr class=\"withover\">");
+			echo("<td class=\"count\"><span>$tag_ID<span></td>");
+			echo("<td class=\"short\"><input type=\"text\" id=\"name$tag_ID\" name=\"name$tag_ID\" value=\"$tag_name\" size=\"40\" /></td>");
+			echo("<td class=\"short\"><input type=\"text\" id=\"des$tag_ID\" name=\"des$tag_ID\" value=\"$tag_description\" size=\"80\" /></td>");
+			echo("<td class=\"short\"><input type=\"text\" id=\"parent$tag_ID\" name=\"parent$tag_ID\" value=\"$tag_parent\" size=\"20\" /></td>");
+			echo("<td class=\"short\"><input type=\"submit\" value=\"Save\" onclick=\"javascript:xajax_saveEditTag($tag_ID,document.getElementById('name$tag_ID').value,document.getElementById('des$tag_ID').value,document.getElementById('parent$tag_ID').value);javascript:document.getElementById('lo').style.display='block';javascript:document.getElementById('lo').innerHTML='Saving';javascript:document.getElementById('lo').style.background='#c44';\" /></td>");
+			echo("<td class=\"short\"><input type=\"submit\" value=\"No Show\" onclick=\"javascript:xajax_saveNoShowTag($tag_ID);javascript:document.getElementById('lo').style.display='block';javascript:document.getElementById('lo').innerHTML='Saving';javascript:document.getElementById('lo').style.background='#c44';\" /></td>");
+			echo("</tr>");
+		}
+	}
+}
+
+function saveEditTag($tag_ID,$tag_name,$tag_description,$tag_parent){
+	global $gcdb;
+	$objResponse = new xajaxResponse();
+	
+	if($tag_name!="")
+	{    
+	    if(get_option('charset')=='gb2312'){
+	       $tag_name = iconv( "UTF-8", "GB2312//IGNORE" , $tag_name);
+	       $tag_description = iconv( "UTF-8", "GB2312//IGNORE" , $tag_description);
+	    }
+	    if($tag_parent!="")
+	       $tag_parent=(int)$tag_parent;
+	    else
+	       $tag_parent=0;
+	       
+        $request1 = "UPDATE $gcdb->tags SET tag_name='$tag_name',tag_description='$tag_description',tag_parent='$tag_parent' WHERE tag_ID=$tag_ID";
+    	$gcdb->query($request1);
+    
+    	//$objResponse->addAlert("Option'".$option_ID."' - Saved");
+    	$objResponse->addAssign("lo","innerHTML",'Saved');
+    	$objResponse->addAssign("lo","style.background",'green');
+	}
+	else {
+    	$objResponse->addAssign("lo","innerHTML",'TAG名称不能为空');
+    	$objResponse->addAssign("lo","style.background",'#c44');  
+	}
+
+	return $objResponse;
+}
+
+function saveNoShowTag($tag_ID){
+	global $gcdb;
+	$objResponse = new xajaxResponse();
+	$request1 = "SELECT COUNT(tag_ID) FROM $gcdb->tags WHERE tag_ID=$tag_ID";
+	$num=$gcdb->get_var($request1);
+	
+	if($num==1)
+	{    
+    	$request2 = "UPDATE $gcdb->tags SET tag_description='noshow' WHERE tag_ID=$tag_ID";
+    	$gcdb->query($request2);
+    
+    	//$objResponse->addAlert("Option'".$option_ID."' - Saved");
+    	$objResponse->addAssign("lo","innerHTML",'No Show Saved');
+    	$objResponse->addAssign("lo","style.background",'green');
+	}
+	else {
+    	$objResponse->addAssign("lo","innerHTML",'无法隐藏该TAG');
+    	$objResponse->addAssign("lo","style.background",'#c44');
+	}
+
+	return $objResponse;
+}
+
+function saveAddTag($tag_name,$tag_description,$tag_parent)
+{
+	global $gcdb;
+	$objResponse = new xajaxResponse();
+	
+	if ($tag_name=="")
+	{
+    	$objResponse->addAssign("lo","innerHTML",'TAG名称不能为空');
+    	$objResponse->addAssign("lo","style.background",'#c44');  
+	}
+	else {
+	   if(get_option('charset')=='gb2312'){
+	       $tag_name = iconv( "UTF-8", "GB2312//IGNORE" , $tag_name);
+	       $tag_description = iconv( "UTF-8", "GB2312//IGNORE" , $tag_description);
+	   }
+	    if($tag_parent!="")
+	       $tag_parent=(int)$tag_parent;
+	    else
+	       $tag_parent=0;
+    
+    	$request1 = "INSERT INTO $gcdb->tags (tag_name,tag_description,tag_parent) VALUES ('$tag_name','$tag_description','$tag_parent')";
+    	$gcdb->query($request1);
+    
+    	//$objResponse->addAlert("Option'".$option_ID."' - Saved");
+    	$objResponse->addAssign("a_tagname","value",'');
+    	$objResponse->addAssign("a_tagdes","value",'');
+    	$objResponse->addAssign("a_tagparent","value",'0');
+    	$objResponse->addAssign("lo","innerHTML",'Tag Added');
     	$objResponse->addAssign("lo","style.background",'green');
 	}
 
@@ -913,7 +1031,7 @@ function saveEditSpam($spam_ID,$spam_value,$spam_type){
 	
 	if($spam_value!=""&&($spam_type=="name"||$spam_type=="email"||$spam_type=="text"||$spam_type=="ip"))
 	{
-	   if(get_option('charset'=='gb2312')){
+	   if(get_option('charset')=='gb2312'){
 	       $spam_value = iconv( "UTF-8", "GB2312//IGNORE" , $spam_value);
 	       $spam_type = iconv( "UTF-8", "GB2312//IGNORE" , $spam_type);
 	   }
@@ -971,7 +1089,7 @@ function saveAddSpam($spam_value,$spam_type)
     	$objResponse->addAssign("lo","style.background",'#c44');  
 	}
 	else {
-	   if(get_option('charset'=='gb2312')){
+	   if(get_option('charset')=='gb2312'){
 	       $spam_value = iconv( "UTF-8", "GB2312//IGNORE" , $spam_value);
 	       $spam_type = iconv( "UTF-8", "GB2312//IGNORE" , $spam_type);
 	   }
@@ -1023,7 +1141,7 @@ function saveEditX($x_ID,$post_ID,$x_name){
 	
 	if($post_ID!=""&&is_int($post_ID)&&$x_name!=""&&($x_name!="q"||$x_name!="archive"||$x_name!="search"||$x_name!="about"||$x_name!="links"||$x_name!="tags"||$x_name!="tag"||$x_name!="month"||$x_name!="comment"||$x_name!="feed"))
 	{
-	   if(get_option('charset'=='gb2312')){
+	   if(get_option('charset')=='gb2312'){
 	       $post_ID = iconv( "UTF-8", "GB2312//IGNORE" , $post_ID);
 	       $x_name = iconv( "UTF-8", "GB2312//IGNORE" , $x_name);
 	   }
@@ -1081,7 +1199,7 @@ function saveAddX($post_ID,$x_name)
     	$objResponse->addAssign("lo","style.background",'#c44');
 	}
 	else {
-	   if(get_option('charset'=='gb2312')){
+	   if(get_option('charset')=='gb2312'){
 	       $post_ID = iconv( "UTF-8", "GB2312//IGNORE" , $post_ID);
 	       $x_name = iconv( "UTF-8", "GB2312//IGNORE" , $x_name);
 	   }
@@ -1106,6 +1224,7 @@ function getNavBar() {
                 <A href="edituser.php">My Account</A> | 
                 <A href="editabout.php">Edit About</A> | 
                 <A href="editlinks.php">Edit Links</A> | 
+                <A href="edittags.php">Edit Tags</A> | 
                 <A href="editspams.php">Spams</A> | 
                 <A href="editx.php">X</A> | 
                 <A href="logout.php">Sign Out</A>&nbsp;&nbsp;';

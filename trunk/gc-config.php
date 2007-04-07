@@ -24,6 +24,7 @@ define('DB_HOST', 'localhost');     // 99% chance you won't need to change this 
 // Change the prefix if you want to have multiple blogs in a single database.
 // 表前缀
 $table_prefix  = 'gcdb_';   // example: 'gcdb_' or 'b2' or 'mylogin_'
+$table_charset  = 'gb2312';   // example: 'utf8' or 'gb2312' or 'gbk'
 
 /* Stop editing. */
 /* 下面的内容不需要编辑. */
@@ -44,5 +45,7 @@ $gcdb->options          = $table_prefix . 'options';
 $gcdb->id          		= $table_prefix . 'id';
 $gcdb->spams          	= $table_prefix . 'spams';
 $gcdb->x          	    = $table_prefix . 'x';
+
+$gcdb->query("SET NAMES '$table_charset'");
 
 ?>

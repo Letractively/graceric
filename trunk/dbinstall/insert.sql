@@ -18,7 +18,7 @@ NULL , 'admin', 'admin', '', '', '', '', '0', '', '', '', '', '', '0000-00-00 00
 
 INSERT INTO `gcdb_posts` ( `ID` , `post_author` , `post_date` , `post_date_gmt` , `post_content` , `post_title` , `post_tag` , `post_excerpt` , `post_status` , `comment_status` , `ping_status` , `post_password` , `post_name` , `to_ping` , `pinged` , `post_modified` , `post_modified_gmt` , `post_content_filtered` , `post_parent` , `guid` , `menu_order` , `show_in_home` ) 
 VALUES (
-1 , '0', '2006-02-23 12:12:00', '0000-00-00 00:00:00', 'This is the first test page.', 'Hello world!', '0', '', 'publish', 'open', 'open', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '0', '', '0', 'yes'
+1 , '0', '2007-04-06 17:10:00', '0000-00-00 00:00:00', 'This is the first test page.', 'Hello world!', '0', '', 'publish', 'open', 'open', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '0', '', '0', 'yes'
 );
 
 INSERT INTO `gcdb_id` ( `ID` ) 

@@ -1,7 +1,7 @@
 /**
  * $RCSfile: validate.js,v $
- * $Revision: 1.3 $
- * $Date: 2006/02/06 20:11:09 $
+ * $Revision$
+ * $Date$
  *
  * Various form validation methods.
  *

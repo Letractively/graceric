@@ -1,7 +1,7 @@
 /**
  * $RCSfile: mclayer.js,v $
- * $Revision: 1.2 $
- * $Date: 2006/02/06 20:11:09 $
+ * $Revision$
+ * $Date$
  *
  * Moxiecode floating layer script.
  *

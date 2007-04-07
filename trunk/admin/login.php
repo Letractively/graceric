@@ -1,4 +1,18 @@
 <? 
+/* Graceric
+*  Author: ericfish
+*  File: /admin/login.php
+*  Usage: Admin Login Page
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
 require_once('../gc-config.php');
 include("../gc-includes/functions.php");
 
