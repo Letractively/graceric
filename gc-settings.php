@@ -42,4 +42,5 @@ define('TPPATH', 'gc-themes/'.get_option('template'));
 define('COOKIEPATH', preg_replace('|https?://[^/]+|i', '', '/' ) );
 define('SITECOOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_settings('base_url') . '/' ) );
 
+
 ?>

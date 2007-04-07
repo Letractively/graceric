@@ -1,8 +1,8 @@
 <?php
 /* Graceric
 *  Author: ericfish
-*  File: /admin/editlinks.php
-*  Usage: Edit Links
+*  File: /admin/edittags.php
+*  Usage: Edit Tags
 *  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
 *
 *  Subversion Keywords:
@@ -20,15 +20,15 @@ auth_redirect();
 
 $xajax = new xajax(); 
 //$xajax->debugOn(); // Uncomment this line to turn debugging on
-$xajax->registerFunction("saveEditLink");
-$xajax->registerFunction("saveDeleteLink");
-$xajax->registerFunction("saveAddLink");
+$xajax->registerFunction("saveEditTag");
+$xajax->registerFunction("saveNoShowTag");
+$xajax->registerFunction("saveAddTag");
 $xajax->processRequests();
 
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>Edit Links</TITLE>
+<HTML><HEAD><TITLE>Edit Tags</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=<?get_blog_charset();?>">
 <LINK href="style/style.css" rel=stylesheet>
 
@@ -59,28 +59,33 @@ $xajax->processRequests();
 <table>
 <tr class="withover">
     <th class="short">ID</th>
-    <th class="short">Link Name</th>
-    <th class="short"><span class="info_s">Link URL</span></th>
+    <th class="short">Name</th>
+    <th class="short"><span class="info_s">Description</span></th>
+    <th class="short"><span class="info_s">Parent Tag ID</span></th>
     <th class="short">&nbsp;</th>
     <th class="short">&nbsp;</th>
 </tr>
-	<?php initEditLink(); ?>
+	<?php initEditTag(); ?>
 </table>
 </DIV>
 <br/>
 <DIV id=tr_grid-view class="withover">
-&nbsp; &nbsp;<b>Add New Link:</b><br/>
+&nbsp; &nbsp;<b>Add New Tag:</b><br/>
 <table>
 <tr class="withover">
-<td class="short">&nbsp; &nbsp;Link Name:</td>
-    <td class="short"><input type="text" name="a_linkname" id="a_linkname" tabindex="1" size="40" >
+<td class="short">&nbsp; &nbsp;Tag Name:</td>
+    <td class="short"><input type="text" name="a_tagname" id="a_tagname" tabindex="1" size="40" >
 </tr>
 <tr class="withover">
-<td class="short">&nbsp; &nbsp;Link URL:</td>
-    <td class="short"><input type="text" name="a_linkurl" id="a_linkurl" tabindex="2" size="80" value="http://" ></td>
+<td class="short">&nbsp; &nbsp;Tag Description:</td>
+    <td class="short"><input type="text" name="a_tagdes" id="a_tagdes" tabindex="2" size="80" value="" ></td></tr>
+<tr class="withover">
+<td class="short">&nbsp; &nbsp;Parent Tag ID:</td>
+    <td class="short"><input type="text" name="a_tagparent" id="a_tagparent" tabindex="1" size="20" value="0" >
+</tr>
 </tr>
 <tr class="withover">
-    <td class="short">&nbsp; &nbsp;<input type="submit" value="Add Link" onclick="javascript:xajax_saveAddLink(document.getElementById('a_linkname').value,document.getElementById('a_linkurl').value);javascript:document.getElementById('lo').style.display='block';javascript:document.getElementById('lo').innerHTML='Saving';javascript:document.getElementById('lo').style.background='#c44';" /></td>
+    <td class="short">&nbsp; &nbsp;<input type="submit" value="Add Tag" onclick="javascript:xajax_saveAddTag(document.getElementById('a_tagname').value,document.getElementById('a_tagdes').value,document.getElementById('a_tagparent').value);javascript:document.getElementById('lo').style.display='block';javascript:document.getElementById('lo').innerHTML='Saving';javascript:document.getElementById('lo').style.background='#c44';" /></td>
 </tr>
 </table>
 

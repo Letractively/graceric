@@ -1,4 +1,18 @@
 <?php
+/* Graceric
+*  Author: ericfish
+*  File: /admin/editx.php
+*  Usage: Edit Shorcut Links
+*  Format: 1 tab indent(4 spaces), LF, GB2312, no-BOM
+*
+*  Subversion Keywords:
+*
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
+*/
 require_once('../gc-config.php');
 require_once('../gc-settings.php');
 

@@ -518,8 +518,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $post_author = $user_data->ID;
 
-	  $post_title = transcode($content_struct['title']);
-	  $post_content = transcode($content_struct['description']);
+	  $post_title = transcode_bak($content_struct['title']);
+	  $post_content = transcode_bak($content_struct['description']);
 	  $post_status = $publish ? 'publish' : 'draft';
 
 	  // Do some timestamp voodoo
@@ -761,7 +761,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	      $struct['categoryName'] = transcode($cat['tag_name']);
 	      $struct['htmlUrl'] = get_category_link(transcode($cat['tag_name']));
 	      $struct['rssUrl'] = get_category_rss_link(transcode($cat['tag_name']));
-
+	      
 	      $categories_struct[] = $struct;
 	    }
 	  }
@@ -849,7 +849,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $categories_struct = array();
 
 	  // FIXME: can we avoid using direct SQL there?
-	  if ($cats = $gcdb->get_results("SELECT tag_ID,tag_name FROM $gcdb->tags WHERE tag_description ='show'", ARRAY_A)) {
+	  if ($cats = $gcdb->get_results("SELECT tag_ID,tag_name FROM $gcdb->tags WHERE tag_description !='noshow'", ARRAY_A)) {
 	    foreach ($cats as $cat) {
 	      $struct['categoryId'] = $cat['tag_ID'];
 	      $struct['categoryName'] = transcode($cat['tag_name']);
