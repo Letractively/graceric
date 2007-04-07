@@ -53,7 +53,7 @@ class DB_Query {
 		$this->query($query);
 		
 		// The homepage, detail page and month archive page need to load the posts object
-		if ($this->is_home || $this->is_page || $this->is_month || $this->is_x)
+		if ($this->is_home || $this->is_page || $this->is_month || $this->is_x || $this->is_feed)
 		{
 			$posts = $this->get_post();
 		}
@@ -216,6 +216,25 @@ class DB_Query {
 			$request .= " AND ping_status = 'open'";
 			$request .= " ORDER BY post_date DESC";
 			$request .= " LIMIT ".get_option('home_post_number');
+		}
+		
+		// Get db request for is_home
+		if ($this->is_feed)
+		{
+			$feed = $gcdb->escape($this->query_vars['feed']);
+			if($feed=="comment"){
+			    $request = "SELECT comment_post_ID,comment_ID,comment_author,comment_content,comment_date FROM $gcdb->comments";
+		        $request .= " WHERE comment_approved='1'";
+		        $request .= " ORDER BY comment_date DESC";
+			}
+			else {
+    			$request = "SELECT ID, post_date, post_title, post_content,show_in_home,comment_status FROM $gcdb->posts";
+    			$request .= " WHERE post_status = 'publish'";
+    			$request .= " AND show_in_home = 'yes'";
+    			$request .= " AND ping_status = 'open'";
+    			$request .= " ORDER BY post_date DESC";
+    			$request .= " LIMIT ".get_option('rss_post_number');
+			}
 		}
 		
 		// Get db request for is_month, show all post for the month

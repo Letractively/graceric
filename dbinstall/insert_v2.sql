@@ -39,6 +39,14 @@ INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_c
 VALUES (
 NULL , '0', 'gmt_offset', 'Y', '1', '8', '20', '8', '你所在的时区', '1', 'yes'
 );
+INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
+VALUES (
+NULL , '0', 'rss_language', 'Y', '1', 'zh-CHS', '20', '8', 'Rssfeed语言:en,zh-CHS', '1', 'yes'
+);
+INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
+VALUES (
+NULL , '0', 'rss_post_number', 'Y', '1', '10', '20', '8', 'Rss文章数', '1', 'yes'
+);
 
 UPDATE `gcdb_users` SET `user_pass` = '21232f297a57a5a743894a0e4a801fc3' WHERE `ID` =1 LIMIT 1 ;
 

@@ -60,8 +60,8 @@ function processSearch($keyword){
 	global $gcdb;
 	
 	$keyword = trim($keyword);
-	if(get_option('charset')=='gb2312')
-	   $keyword = iconv( "UTF-8", "gb2312" , $keyword);
+	//if(get_option('charset')=='gb2312')
+	  $keyword = iconv( "UTF-8", "gb2312//IGNORE" , $keyword);
 	$keyword = $gcdb->escape($keyword);
 	$keywords = explode(" ", $keyword);
 	$keyword_count = count($keywords);
@@ -77,6 +77,7 @@ function processSearch($keyword){
 		$request .= "post_title LIKE '%$kw%' OR post_content LIKE '%$kw%'";
 	}
 	
+    $gcdb->query("SET NAMES 'gb2312'");
 	$search_results = $gcdb->get_results($request);
 	$numbers = count($search_results);
 	
@@ -144,6 +145,7 @@ function nextPage($begin_post_id){
 	
 	$request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY ID DESC LIMIT $begin_post_id, $end_id";
 	
+    $gcdb->query("SET NAMES 'gb2312'");
 	$p1_posts = $gcdb->get_results($request);
 	if(count($p1_posts)==0)
 	{
@@ -219,6 +221,7 @@ function prevPage($begin_post_id){
 	
 	$request = "SELECT ID,post_title,DATE_FORMAT(post_date, '%b %d, %Y') AS post_date_fmt,post_date,post_status FROM $gcdb->posts ORDER BY ID DESC LIMIT $begin_post_id, $end_id";
 	
+    $gcdb->query("SET NAMES 'gb2312'");
 	$p1_posts = $gcdb->get_results($request);
 	$text = "<TABLE id=tr_list-view>
               <THEAD>
@@ -320,6 +323,7 @@ function refreshPage($begin_id) {
 	
 	global $gcdb;
 	
+    $gcdb->query("SET NAMES 'gb2312'");
 	$p1_posts = $gcdb->get_results($request);
 		
 	$text = "<TABLE id=tr_list-view>

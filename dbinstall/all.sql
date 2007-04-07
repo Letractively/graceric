@@ -179,6 +179,12 @@ NULL , '0', 'keywords', 'Y', '1', 'blog website', '20', '8', 'ÍøÕ¾¹Ø¼ü×Ö(¿Õ¸ñ·Ö¸
 NULL , '0', 'blog_author', 'Y', '1', 'anonymous', '20', '8', '×÷ÕßĞÕÃû', '1', 'yes'
 ), (
 NULL , '0', 'comment_email', 'Y', '1', 'no', '20', '8', 'ÊÇ·ñ·¢ËÍĞÂÁôÑÔÓÊ¼ş,yes:·¢ËÍ', '1', 'yes'
+), (
+NULL , '0', 'change_password_msg', 'Y', '1', 'ÄúÎ´¸ü¸Ä¹ıadminµÄ³õÊ¼ÃÜÂë£¬Õâ½«¸øÄúµÄÍøÕ¾´øÀ´°²È«Òş»¼¡£Çë¸øadminÓÃ»§Éè¶¨ĞÂµÄÃÜÂë¡£', '20', '8', '³õ´ÎµÇÂ¼µÄ¸ü¸ÄÃÜÂëÌáÊ¾', '1', 'yes'
+), (
+NULL , '0', 'gmt_offset', 'Y', '1', '8', '20', '8', 'ÄãËùÔÚµÄÊ±Çø', '1', 'yes'
+), (
+NULL , '0', 'rss_language', 'Y', '1', 'zh-CHS', '20', '8', 'RssfeedÓïÑÔ:en,zh-CHS', '1', 'yes'
 );
 
 INSERT INTO `gcdb_users` ( `ID` , `user_login` , `user_pass` , `user_firstname` , `user_lastname` , `user_nickname` , `user_nicename` , `user_icq` , `user_email` , `user_url` , `user_ip` , `user_domain` , `user_browser` , `user_registered` , `user_level` , `user_aim` , `user_msn` , `user_yim` , `user_idmode` , `user_activation_key` , `user_status` , `user_description` ) 

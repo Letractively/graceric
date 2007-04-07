@@ -28,7 +28,7 @@ require (ABSPATH . WPINC . '/user-functions.php');
 require (ABSPATH . WPINC . '/comment-functions.php');
 require (ABSPATH . WPINC . '/dbquery.class.php');
 
-require (ABSPATH . WPINC . '/feedcreator.class.php');
+require (ABSPATH . WPINC . '/feed-functions.php');
 require (ABSPATH . WPINC . '/xmlrpc-functions.php');
 
 require (ABSPATH . WPINC . '/admin-functions.php');

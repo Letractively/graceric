@@ -310,6 +310,40 @@ function get_lock_icon(){
     }
 }
 
+function get_lastpostmodifiedcomment() {
+    global $gcdb;
+    $lastpostmodified = $gcdb->get_var("SELECT comment_date FROM $gcdb->comments WHERE comment_approved='1' ORDER BY comment_date DESC LIMIT 1");
+	return $lastpostmodified;
+}
+
+function get_lastpostmodified($timezone = 'server') {
+	global $cache_lastpostmodified, $pagenow, $gcdb;
+	$add_seconds_blog = get_settings('gmt_offset') * 3600;
+	$add_seconds_server = date('Z');
+	$now = current_time('mysql', 1);
+	if ( !isset($cache_lastpostmodified[$timezone]) ) {
+		switch(strtolower($timezone)) {
+			case 'gmt':
+				$lastpostmodified = $gcdb->get_var("SELECT post_date_gmt FROM $gcdb->posts WHERE post_date_gmt <= '$now' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
+				break;
+			case 'blog':
+				$lastpostmodified = $gcdb->get_var("SELECT post_date FROM $gcdb->posts WHERE post_date_gmt <= '$now' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
+				break;
+			case 'server':
+				$lastpostmodified = $gcdb->get_var("SELECT DATE_ADD(post_date_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $gcdb->posts WHERE post_date_gmt <= '$now' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
+				break;
+		}
+		$lastpostdate = $gcdb->get_var("SELECT post_date FROM $gcdb->posts WHERE post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
+		if ($lastpostdate > $lastpostmodified) {
+			$lastpostmodified = $lastpostdate;
+		}
+		$cache_lastpostmodified[$timezone] = $lastpostmodified;
+	} else {
+		$lastpostmodified = $cache_lastpostmodified[$timezone];
+	}
+	return $lastpostmodified;
+}
+
 function get_header() {
 	if ( file_exists( TEMPLATEPATH . '/header.php') )
 		require_once( TEMPLATEPATH . '/header.php');
@@ -621,7 +655,8 @@ function get_tags(){
 		$tag_nicename = $tag->tag_nicename;
 		$title = $tag->title;
 		
-		echo " <a href='?tag=$tag_name' title='$title'>$tag_name</a> <a href='./?feed=$tag_name' class='grey' target='_blank'><img src='./gc-themes/o_rss.gif' border='0' height='16' width='16' align='absbottom'/></a> <br><br> ";
+		//echo " <a href='?tag=$tag_name' title='$title'>$tag_name</a> <a href='./?feed=$tag_name' class='grey' target='_blank'><img src='./gc-themes/o_rss.gif' border='0' height='16' width='16' align='absbottom'/></a> <br><br> ";
+		echo " <a href='?tag=$tag_name' title='$title'>$tag_name</a><br><br> ";
 	}
 }
 
@@ -698,8 +733,8 @@ function processSearchForm($aFormValues)
 	$keyword = trim($aFormValues['keyword']);
 	
 	if($keyword!=""){
-	   if(get_option('charset')=='gb2312')
-    	   $keyword = iconv( "UTF-8", "gb2312" , $keyword);
+	    //if(get_option('charset')!='gb2312')
+    	  $keyword = iconv( "UTF-8", "gb2312" , $keyword);
     	$keyword = $gcdb->escape($keyword);
     	$keywords = explode(" ", $keyword);
     	$keyword_count = count($keywords);
@@ -716,6 +751,7 @@ function processSearchForm($aFormValues)
     	}
     	$request .= ") AND post_status='publish'";
     	
+        $gcdb->query("SET NAMES 'gb2312'");
     	$search_results = $gcdb->get_results($request);
     	$numbers = count($search_results);
     	
@@ -807,6 +843,7 @@ function count_comments_per_post(){
 }
 
 /**** Feed functions ****/
+/*
 function createFeed(){
 	global $gcdb,$PHP_SELF,$db_query;
 	
@@ -882,7 +919,7 @@ function createFeed(){
 	}
 	
 	$rss->saveFeed("RSS2.0");
-}
+}*/
 
 /***** Security functions *****/
 
@@ -936,4 +973,21 @@ function printr($var, $do_not_echo = false) {
 	}
 	return $code;
 }
+
+/**** URL Rewrite ****/
+function get_permalink($id=0){
+    if($id==0)
+        $id=the_ID(false);
+    $base_url=get_option('base_url');
+    return $base_url.'/?q='.$id;
+}
+
+function comments_permalink($id=0){
+    if($id==0)
+        $id=the_ID(false);
+    $base_url=get_option('base_url');
+    return $base_url.'/?q='.$id."&comment#comment";
+}
+
+
 ?>

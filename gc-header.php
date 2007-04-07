@@ -45,7 +45,7 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 		include(TEMPLATEPATH . '/tag.php');
 	}
 	elseif (is_feed()) {
-		include(TEMPLATEPATH . '/feed.php');
+		include(ABSPATH. 'gc-feed.php');
 	}
 	elseif( file_exists(TEMPLATEPATH . "/index.php") ) {
 		include(TEMPLATEPATH . '/index.php');
