@@ -14,6 +14,20 @@ if (isset($_GET['step']))
 	$step = $_GET['step'];
 else
 	$step = 0;
+	
+if (isset($_GET['prefix']))
+	$prefix = $_GET['prefix'];
+else
+	$prefix = 'gcdb_';
+	
+if (isset($_GET['charset'])){
+	$charset = $_GET['charset'];
+	if($charset=='utf8')
+	   $charset = 'utf-8';
+}
+else
+	$charset = 'utf-8';
+	
 header( 'Content-Type: text/html; charset=gb2312' );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -33,7 +47,7 @@ switch($step) {
 	case 0:
 ?>
 <p>Welcome to Graceric installation. We&#8217;re now going to go through a few steps to get you up and running with the latest in personal publishing platforms. You may want to peruse the <a href="readme.html">ReadMe documentation</a> at your leisure.</p>
-<h2 class="step"><a href="install.php?step=1">First Step &raquo;</a></h2>
+<h2 class="step"><a href="install.php?step=1&prefix=<?=$prefix?>&charset=<?=$charset?>">First Step &raquo;</a></h2>
 <?php
 		break;
 	case 1:
@@ -41,7 +55,7 @@ switch($step) {
 <h1>First Step</h1>
 <p>Before we begin we need a little bit of information. Don't worry, you can always change these later.</p>
 
-<form id="setup" method="post" action="install.php?step=2">
+<form id="setup" method="post" action="install.php?step=2&prefix=<?=$prefix?>&charset=<?=$charset?>">
 	<table width="100%">
 		<tr>
 			<th width="33%">Weblog title:</th>
@@ -67,6 +81,10 @@ switch($step) {
 			die("<strong>ERROR</strong>: please type your e-mail address");
 		} else if (empty($admin_email)) {
 			die("<strong>ERROR</strong>: the e-mail address isn't correct");
+		} else if (empty($prefix)) {
+			die("<strong>ERROR</strong>: the prefix isn't exist");
+		} else if (empty($charset)) {
+			die("<strong>ERROR</strong>: the charset isn't exist");
 		}
 
 ?>
@@ -75,7 +93,7 @@ switch($step) {
 
 
 <?php
-	$result = gc_install($weblog_title, 'admin', $admin_email);
+	$result = gc_install($weblog_title, 'admin', $admin_email,$prefix,$charset);
 	extract($result);
 ?>
 
