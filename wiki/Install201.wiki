@@ -33,7 +33,7 @@ b) 升级
 
 管理：
 
-浏览http://localhost/admin/，默认用户/密码: admin/admin。
+浏览admin目录，默认用户/密码: admin/admin。
 安全起见，请在第一次登录后更改admin的默认密码。
 
 =============
