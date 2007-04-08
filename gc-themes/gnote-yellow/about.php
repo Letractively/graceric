@@ -18,7 +18,7 @@
 
 
 <div class="date">	
-		<img src="./<?=TPPATH?>/pic/bullet.gif" width="7" height="7"> Site Statics
+		<img src="./<?=TPPATH?>/pic/bullet.gif" width="7" height="7"> Site Stat
 	</div>	
 <p>
 	<p><br/>

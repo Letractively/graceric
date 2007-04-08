@@ -14,10 +14,38 @@
 *  $URL$
 */
 
+define('XMLRPC_REQUEST', true);
+
+// Some browser-embedded clients send cookies. We don't want them.
+$_COOKIE = array();
+
 # fix for mozBlog and other cases where '<?xml' isn't on the very first line
-$HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);
+if ( isset($HTTP_RAW_POST_DATA) )
+	$HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);
 
 include('./gc-header.php');
+
+if ( isset( $_GET['rsd'] ) ) { // http://archipelago.phrasewise.com/rsd 
+header('Content-type: text/xml; charset=' . get_option('charset'), true);
+
+?>
+<?php echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
+<rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd">
+  <service>
+    <engineName>Graceric</engineName>
+    <engineLink>http://www.ericfish.com/graceric</engineLink>
+    <homePageLink><?php bloginfo_rss('base_url') ?></homePageLink>
+    <apis>
+      <api name="Movable Type" blogID="1" preferred="true" apiLink="<?php bloginfo_rss('base_url') ?>/xmlrpc.php" />
+      <api name="MetaWeblog" blogID="1" preferred="false" apiLink="<?php bloginfo_rss('base_url') ?>/xmlrpc.php" />
+      <api name="Blogger" blogID="1" preferred="false" apiLink="<?php bloginfo_rss('base_url') ?>/xmlrpc.php" />
+    </apis>
+  </service>
+</rsd>
+<?php
+exit;
+}
+
 include_once(ABSPATH . WPINC . '/class-IXR.php');
 
 // Turn off all warnings and errors.
@@ -44,7 +72,8 @@ function starify($string) {
 	return str_repeat('*', $i);
 }
 
-logIO("I", $HTTP_RAW_POST_DATA);
+if ( isset($HTTP_RAW_POST_DATA) )
+  logIO("I", $HTTP_RAW_POST_DATA);
 
 
 function mkdir_p($target) {

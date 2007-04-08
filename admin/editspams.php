@@ -69,7 +69,7 @@ $xajax->processRequests();
 </DIV>
 <br/>
 <DIV id=tr_grid-view class="withover">
-&nbsp; &nbsp;<b>Add New Link:</b><br/>
+&nbsp; &nbsp;<b>New Spam:</b><br/>
 <table>
 <tr class="withover">
 <td class="short">&nbsp; &nbsp;Spam Value:</td>

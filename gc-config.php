@@ -16,7 +16,7 @@
 
 // ** MySQL settings ** //
 // ** 数据库设置 ** //
-define('DB_NAME', 'gc');     // The name of the database
+define('DB_NAME', 'gcv2');     // The name of the database
 define('DB_USER', 'root');     // Your MySQL username
 define('DB_PASSWORD', ''); // ...and password
 define('DB_HOST', 'localhost');     // 99% chance you won't need to change this value
@@ -24,7 +24,7 @@ define('DB_HOST', 'localhost');     // 99% chance you won't need to change this 
 // Change the prefix if you want to have multiple blogs in a single database.
 // 表前缀
 $table_prefix  = 'gcdb_';   // example: 'gcdb_' or 'b2' or 'mylogin_'
-$table_charset  = 'gb2312';   // example: 'utf8' or 'gb2312' or 'gbk'
+$table_charset  = 'utf8';   // example: 'utf8' or 'gb2312' or 'gbk'
 
 /* Stop editing. */
 /* 下面的内容不需要编辑. */

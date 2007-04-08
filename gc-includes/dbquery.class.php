@@ -226,6 +226,7 @@ class DB_Query {
 			    $request = "SELECT comment_post_ID,comment_ID,comment_author,comment_content,comment_date FROM $gcdb->comments";
 		        $request .= " WHERE comment_approved='1'";
 		        $request .= " ORDER BY comment_date DESC";
+    			$request .= " LIMIT ".get_option('rss_post_number');
 			}
 			else {
     			$request = "SELECT ID, post_date, post_title, post_content,show_in_home,comment_status FROM $gcdb->posts";

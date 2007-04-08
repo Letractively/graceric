@@ -80,7 +80,7 @@
   #sidebar {
     float: right;
     width: 230px;
-    text-align: center;
+    text-align: left;
   }
   #footer {
     clear: both;

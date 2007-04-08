@@ -17,7 +17,7 @@ NULL , '0', 'rss_link', 'Y', '1', '', '20', '8', 'RSS链接地址', '1', 'yes'
 );
 INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
 VALUES (
-NULL , '0', 'charset', 'Y', '1', 'gb2312', '20', '8', '字符集', '1', 'yes'
+NULL , '0', 'charset', 'Y', '1', 'gb2312', '20', '8', '字符集:utf-8|gb2312', '1', 'yes'
 );
 INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
 VALUES (
@@ -29,7 +29,7 @@ NULL , '0', 'blog_author', 'Y', '1', 'anonymous', '20', '8', '作者姓名', '1', 'y
 );
 INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
 VALUES (
-NULL , '0', 'comment_email', 'Y', '1', 'no', '20', '8', '是否发送新留言邮件,yes:发送', '1', 'yes'
+NULL , '0', 'comment_email', 'Y', '1', 'no', '20', '8', '是否发送新留言邮件:yes|no', '1', 'yes'
 );
 INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
 VALUES (
@@ -41,11 +41,15 @@ NULL , '0', 'gmt_offset', 'Y', '1', '8', '20', '8', '你所在的时区', '1', 'yes'
 );
 INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
 VALUES (
-NULL , '0', 'rss_language', 'Y', '1', 'zh-CHS', '20', '8', 'Rssfeed语言:en,zh-CHS', '1', 'yes'
+NULL , '0', 'rss_language', 'Y', '1', 'zh-CHS', '20', '8', 'Rssfeed语言:en|zh-CHS', '1', 'yes'
 );
 INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
 VALUES (
 NULL , '0', 'rss_post_number', 'Y', '1', '10', '20', '8', 'Rss文章数', '1', 'yes'
+);
+INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
+VALUES (
+NULL , '0', 'footer_text', 'Y', '1', '', '20', '8', '版权信息', '1', 'yes'
 );
 
 UPDATE `gcdb_users` SET `user_pass` = '21232f297a57a5a743894a0e4a801fc3' WHERE `ID` =1 LIMIT 1 ;
