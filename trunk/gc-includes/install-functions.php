@@ -1,7 +1,7 @@
 <?php
 
 if ( !function_exists('gc_install') ) :
-function gc_install($blog_title, $user_name, $user_email, $meta='') {
+function gc_install($blog_title, $user_name, $user_email, $prefix, $charset, $meta='') {
 	global $gc_rewrite;
 
 	gc_check_mysql_version();
@@ -9,22 +9,23 @@ function gc_install($blog_title, $user_name, $user_email, $meta='') {
 	$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
 	$guessurl = preg_replace('|/admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 
-	gc_install_defaults($blog_title, $user_name, $user_email, $guessurl);
+	gc_install_defaults($blog_title, $user_name, $user_email, $guessurl, $prefix, $charset);
 
 	return array('url' => $guessurl, 'user_id' => $user_name, 'password' => 'admin');
 }
 endif;
 
-function trans_sql_utf8($query){
-    $query = iconv("gb2312", "UTF-8//IGNORE" , $query);
+function trans_sql_utf8($charset,$query){
+    if($charset=='utf-8')
+        $query = iconv("gb2312", "UTF-8//IGNORE" , $query);
     return $query;
 }
 
 if ( !function_exists('gc_install_defaults') ) :
-function gc_install_defaults($blog_title, $user_name, $user_email, $guessurl) {
+function gc_install_defaults($blog_title, $user_name, $user_email, $guessurl, $prefix, $charset) {
 	global $gcdb;
 	
-	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_tags (
+	$gcdb->query(trans_sql_utf8($charset,"CREATE TABLE ".$prefix."tags (
   tag_ID bigint(20) NOT NULL auto_increment,
   tag_name varchar(55) NOT NULL default '',
   tag_nicename varchar(200) NOT NULL default '',
@@ -33,7 +34,7 @@ function gc_install_defaults($blog_title, $user_name, $user_email, $guessurl) {
   PRIMARY KEY  (tag_ID),
   KEY tag_nicename (tag_nicename)
 );"));
-	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_comments (
+	$gcdb->query(trans_sql_utf8($charset,"CREATE TABLE ".$prefix."comments (
   comment_ID bigint(20) unsigned NOT NULL auto_increment,
   comment_post_ID bigint(20) NOT NULL default '0',
   comment_author tinytext NOT NULL,
@@ -54,7 +55,7 @@ function gc_install_defaults($blog_title, $user_name, $user_email, $guessurl) {
   KEY comment_approved (comment_approved),
   KEY comment_post_ID (comment_post_ID)
 );"));
-	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_links (
+	$gcdb->query(trans_sql_utf8($charset,"CREATE TABLE ".$prefix."links (
   link_id bigint(20) NOT NULL auto_increment,
   link_url varchar(255) NOT NULL default '',
   link_name varchar(255) NOT NULL default '',
@@ -73,7 +74,7 @@ function gc_install_defaults($blog_title, $user_name, $user_email, $guessurl) {
   KEY link_tag (link_tag),
   KEY link_visible (link_visible)
 );"));
-	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_options (
+	$gcdb->query(trans_sql_utf8($charset,"CREATE TABLE ".$prefix."options (
   option_id bigint(20) NOT NULL auto_increment,
   blog_id int(11) NOT NULL default '0',
   option_name varchar(64) NOT NULL default '',
@@ -88,14 +89,14 @@ function gc_install_defaults($blog_title, $user_name, $user_email, $guessurl) {
   PRIMARY KEY  (option_id,blog_id,option_name),
   KEY option_name (option_name)
 );"));
-	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_post2tag (
+	$gcdb->query(trans_sql_utf8($charset,"CREATE TABLE ".$prefix."post2tag (
   rel_id bigint(20) NOT NULL auto_increment,
   post_id bigint(20) NOT NULL default '0',
   tag_id bigint(20) NOT NULL default '0',
   PRIMARY KEY  (rel_id),
   KEY post_id (post_id,tag_id)
 );"));
-	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_posts (
+	$gcdb->query(trans_sql_utf8($charset,"CREATE TABLE ".$prefix."posts (
   ID bigint(20) unsigned NOT NULL,
   post_author int(4) NOT NULL default '0',
   post_date datetime NOT NULL default '0000-00-00 00:00:00',
@@ -121,7 +122,7 @@ function gc_install_defaults($blog_title, $user_name, $user_email, $guessurl) {
   PRIMARY KEY  (ID),
   KEY post_name (post_name)
 );"));
-	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_users (
+	$gcdb->query(trans_sql_utf8($charset,"CREATE TABLE ".$prefix."users (
   ID bigint(20) unsigned NOT NULL auto_increment,
   user_login varchar(60) NOT NULL default '',
   user_pass varchar(64) NOT NULL default '',
@@ -147,24 +148,24 @@ function gc_install_defaults($blog_title, $user_name, $user_email, $guessurl) {
   PRIMARY KEY  (ID),
   UNIQUE KEY user_login (user_login)
 );"));
-	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_id (
+	$gcdb->query(trans_sql_utf8($charset,"CREATE TABLE ".$prefix."id (
   ID bigint(20) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (ID)
 );"));
-	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_spams (
+	$gcdb->query(trans_sql_utf8($charset,"CREATE TABLE ".$prefix."spams (
   spam_ID bigint(20) NOT NULL auto_increment,
   spam_value varchar(200) NOT NULL default '',
   spam_type enum('name','email','text','ip') NOT NULL default 'text',  
   PRIMARY KEY  (spam_ID)
 );"));
-	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_x (
+	$gcdb->query(trans_sql_utf8($charset,"CREATE TABLE ".$prefix."x (
   x_ID bigint(20) NOT NULL auto_increment,
   post_ID bigint(20) NOT NULL,
   x_name varchar(200) NOT NULL,  
   PRIMARY KEY  (x_ID),
   UNIQUE KEY x_name (x_name)
 );"));
-	$gcdb->query(trans_sql_utf8("INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
+	$gcdb->query(trans_sql_utf8($charset,"INSERT INTO `".$prefix."options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
 VALUES (
 NULL , '0', 'admin_email', 'Y', '1', '$user_email', '20', '8', '管理员邮件地址', '1', 'yes'
 ), (
@@ -188,7 +189,7 @@ NULL , '0', 'about_title', 'Y', '1', 'About Me', '20', '8', '个人简介标题(可选)'
 ), (
 NULL , '0', 'rss_link', 'Y', '1', '', '20', '8', 'RSS链接地址', '1', 'yes'
 ), (
-NULL , '0', 'charset', 'Y', '1', 'utf-8', '20', '8', '字符集:utf-8|gb2312', '1', 'yes'
+NULL , '0', 'charset', 'Y', '1', '$charset', '20', '8', '字符集:utf-8|gb2312', '1', 'yes'
 ), (
 NULL , '0', 'keywords', 'Y', '1', 'blog website', '20', '8', '网站关键字(空格分隔)', '1', 'yes'
 ), (
@@ -206,15 +207,15 @@ NULL , '0', 'rss_post_number', 'Y', '1', '10', '20', '8', 'Rss文章数', '1', 'yes
 ), (
 NULL , '0', 'footer_text', 'Y', '1', '', '20', '8', '版权信息', '1', 'yes'
 );"));
-	$gcdb->query(trans_sql_utf8("INSERT INTO `gcdb_users` ( `ID` , `user_login` , `user_pass` , `user_firstname` , `user_lastname` , `user_nickname` , `user_nicename` , `user_icq` , `user_email` , `user_url` , `user_ip` , `user_domain` , `user_browser` , `user_registered` , `user_level` , `user_aim` , `user_msn` , `user_yim` , `user_idmode` , `user_activation_key` , `user_status` , `user_description` ) 
+	$gcdb->query(trans_sql_utf8($charset,"INSERT INTO `".$prefix."users` ( `ID` , `user_login` , `user_pass` , `user_firstname` , `user_lastname` , `user_nickname` , `user_nicename` , `user_icq` , `user_email` , `user_url` , `user_ip` , `user_domain` , `user_browser` , `user_registered` , `user_level` , `user_aim` , `user_msn` , `user_yim` , `user_idmode` , `user_activation_key` , `user_status` , `user_description` ) 
 VALUES (
 NULL , '$user_name', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '0', '', '', '', '', '', '0000-00-00 00:00:00', '0', '', '', '', '', '', '0', ''
 );"));
-	$gcdb->query(trans_sql_utf8("INSERT INTO `gcdb_posts` ( `ID` , `post_author` , `post_date` , `post_date_gmt` , `post_content` , `post_title` , `post_tag` , `post_excerpt` , `post_status` , `comment_status` , `ping_status` , `post_password` , `post_name` , `to_ping` , `pinged` , `post_modified` , `post_modified_gmt` , `post_content_filtered` , `post_parent` , `guid` , `menu_order` , `show_in_home` ) 
+	$gcdb->query(trans_sql_utf8($charset,"INSERT INTO `".$prefix."posts` ( `ID` , `post_author` , `post_date` , `post_date_gmt` , `post_content` , `post_title` , `post_tag` , `post_excerpt` , `post_status` , `comment_status` , `ping_status` , `post_password` , `post_name` , `to_ping` , `pinged` , `post_modified` , `post_modified_gmt` , `post_content_filtered` , `post_parent` , `guid` , `menu_order` , `show_in_home` ) 
 VALUES (
 1 , '0', '2007-04-08 12:14:16', '2007-04-08 04:14:16', 'This is the first test page.', 'Hello world!', '0', '', 'publish', 'open', 'open', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '0', '', '0', 'yes'
 );"));
-	$gcdb->query(trans_sql_utf8("INSERT INTO `gcdb_id` ( `ID` ) 
+	$gcdb->query(trans_sql_utf8($charset,"INSERT INTO `".$prefix."id` ( `ID` ) 
 VALUES (
 2
 );"));
