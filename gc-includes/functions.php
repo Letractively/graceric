@@ -993,6 +993,47 @@ function printr($var, $do_not_echo = false) {
 	return $code;
 }
 
+/**** Install ****/
+
+function gc_die($message, $title = '') {
+	global $wp_locale;
+
+	header('Content-Type: text/html; charset=utf-8');
+
+	if ( empty($title) )
+		$title = __('WordPress &rsaquo; Error');
+
+	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
+		$admin_dir = '';
+	else
+		$admin_dir = 'wp-admin/';
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php if ( function_exists('language_attributes') ) language_attributes(); ?>>
+<head>
+	<title><?php echo $title ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="<?php echo $admin_dir; ?>install.css" type="text/css" />
+</head>
+<body>
+	<h1 id="logo">Graceric Blog</h1>
+	<p><?php echo $message; ?></p>
+</body>
+</html>
+<?php
+
+	die();
+}
+
+function is_blog_installed() {
+	global $gcdb;
+	$gcdb->hide_errors();
+	$installed = $gcdb->get_var("SELECT option_value FROM $gcdb->options WHERE option_name = 'base_url'");
+	$gcdb->show_errors();
+	return $installed;
+}
+
 /**** URL Rewrite ****/
 function get_permalink($id=0){
     if($id==0)

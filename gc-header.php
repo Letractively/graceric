@@ -14,6 +14,14 @@
 *  $URL$
 */
 
+if ( !file_exists( dirname(__FILE__) . '/gc-config.php') ) {
+	if ( strstr( $_SERVER['PHP_SELF'], 'admin') ) $path = '';
+	else $path = 'admin/';
+
+  require_once( dirname(__FILE__) . '/gc-includes/functions.php');
+  gc_die("There doesn't seem to be a <code>gc-config.php</code> file. I need this before we can get started. Need more help? <a href='http://www.ericfish.com/graceric'>We got it</a>. You can <a href='{$path}setup-config.php'>create a <code>gc-config.php</code> file through a web interface</a>, but this doesn't work for all server setups. The safest way is to manually create the file.", "Graceric &rsaquo; Error");
+}
+
 require_once( dirname(__FILE__) . '/gc-config.php');
 
 require_once(ABSPATH.'gc-settings.php');

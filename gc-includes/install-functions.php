@@ -1,4 +1,30 @@
-CREATE TABLE gcdb_tags (
+<?php
+
+if ( !function_exists('gc_install') ) :
+function gc_install($blog_title, $user_name, $user_email, $meta='') {
+	global $gc_rewrite;
+
+	gc_check_mysql_version();
+	
+	$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
+	$guessurl = preg_replace('|/admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+
+	gc_install_defaults($blog_title, $user_name, $user_email, $guessurl);
+
+	return array('url' => $guessurl, 'user_id' => $user_name, 'password' => 'admin');
+}
+endif;
+
+function trans_sql_utf8($query){
+    $query = iconv("gb2312", "UTF-8//IGNORE" , $query);
+    return $query;
+}
+
+if ( !function_exists('gc_install_defaults') ) :
+function gc_install_defaults($blog_title, $user_name, $user_email, $guessurl) {
+	global $gcdb;
+	
+	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_tags (
   tag_ID bigint(20) NOT NULL auto_increment,
   tag_name varchar(55) NOT NULL default '',
   tag_nicename varchar(200) NOT NULL default '',
@@ -6,9 +32,8 @@ CREATE TABLE gcdb_tags (
   tag_parent int(4) NOT NULL default '0',
   PRIMARY KEY  (tag_ID),
   KEY tag_nicename (tag_nicename)
-);
-
-CREATE TABLE gcdb_comments (
+);"));
+	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_comments (
   comment_ID bigint(20) unsigned NOT NULL auto_increment,
   comment_post_ID bigint(20) NOT NULL default '0',
   comment_author tinytext NOT NULL,
@@ -28,9 +53,8 @@ CREATE TABLE gcdb_comments (
   PRIMARY KEY  (comment_ID),
   KEY comment_approved (comment_approved),
   KEY comment_post_ID (comment_post_ID)
-);
-
-CREATE TABLE gcdb_links (
+);"));
+	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_links (
   link_id bigint(20) NOT NULL auto_increment,
   link_url varchar(255) NOT NULL default '',
   link_name varchar(255) NOT NULL default '',
@@ -48,9 +72,8 @@ CREATE TABLE gcdb_links (
   PRIMARY KEY  (link_id),
   KEY link_tag (link_tag),
   KEY link_visible (link_visible)
-);
-
-CREATE TABLE gcdb_options (
+);"));
+	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_options (
   option_id bigint(20) NOT NULL auto_increment,
   blog_id int(11) NOT NULL default '0',
   option_name varchar(64) NOT NULL default '',
@@ -64,17 +87,15 @@ CREATE TABLE gcdb_options (
   autoload enum('yes','no') NOT NULL default 'yes',
   PRIMARY KEY  (option_id,blog_id,option_name),
   KEY option_name (option_name)
-);
-
-CREATE TABLE gcdb_post2tag (
+);"));
+	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_post2tag (
   rel_id bigint(20) NOT NULL auto_increment,
   post_id bigint(20) NOT NULL default '0',
   tag_id bigint(20) NOT NULL default '0',
   PRIMARY KEY  (rel_id),
   KEY post_id (post_id,tag_id)
-);
-
-CREATE TABLE gcdb_posts (
+);"));
+	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_posts (
   ID bigint(20) unsigned NOT NULL,
   post_author int(4) NOT NULL default '0',
   post_date datetime NOT NULL default '0000-00-00 00:00:00',
@@ -99,9 +120,8 @@ CREATE TABLE gcdb_posts (
   show_in_home enum('yes','no') NOT NULL default 'yes',
   PRIMARY KEY  (ID),
   KEY post_name (post_name)
-);
-
-CREATE TABLE gcdb_users (
+);"));
+	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_users (
   ID bigint(20) unsigned NOT NULL auto_increment,
   user_login varchar(60) NOT NULL default '',
   user_pass varchar(64) NOT NULL default '',
@@ -126,37 +146,33 @@ CREATE TABLE gcdb_users (
   user_description longtext NOT NULL default '',
   PRIMARY KEY  (ID),
   UNIQUE KEY user_login (user_login)
-);
-
-CREATE TABLE gcdb_id (
+);"));
+	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_id (
   ID bigint(20) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (ID)
-);
-
-CREATE TABLE gcdb_spams (
+);"));
+	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_spams (
   spam_ID bigint(20) NOT NULL auto_increment,
   spam_value varchar(200) NOT NULL default '',
   spam_type enum('name','email','text','ip') NOT NULL default 'text',  
   PRIMARY KEY  (spam_ID)
-);
-
-CREATE TABLE gcdb_x (
+);"));
+	$gcdb->query(trans_sql_utf8("CREATE TABLE gcdb_x (
   x_ID bigint(20) NOT NULL auto_increment,
   post_ID bigint(20) NOT NULL,
   x_name varchar(200) NOT NULL,  
   PRIMARY KEY  (x_ID),
   UNIQUE KEY x_name (x_name)
-);
-
-INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
+);"));
+	$gcdb->query(trans_sql_utf8("INSERT INTO `gcdb_options` ( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` , `autoload` ) 
 VALUES (
-NULL , '0', 'admin_email', 'Y', '1', 'ericfish@gmail.com', '20', '8', '¹ÜÀíÔ±ÓÊ¼şµØÖ·', '1', 'yes'
+NULL , '0', 'admin_email', 'Y', '1', '$user_email', '20', '8', '¹ÜÀíÔ±ÓÊ¼şµØÖ·', '1', 'yes'
 ), (
-NULL , '0', 'base_url', 'Y', '1', 'http://www.playwithvista.com/gc', '20', '8', 'Ê×Ò³µØÖ·(×îºóÃ»ÓĞĞ±¸Ü)', '1', 'yes'
+NULL , '0', 'base_url', 'Y', '1', '$guessurl', '20', '8', 'Ê×Ò³µØÖ·(×îºóÃ»ÓĞĞ±¸Ü)', '1', 'yes'
 ), (
 NULL , '0', 'home_post_number', 'Y', '1', '1', '20', '8', 'Ê×Ò³ÏÔÊ¾µÄblogÊı', '1', 'yes'
 ), (
-NULL , '0', 'blog_title', 'Y', '1', 'Graceric Blog', '20', '8', 'ÍøÕ¾±êÌâ', '1', 'yes'
+NULL , '0', 'blog_title', 'Y', '1', '$blog_title', '20', '8', 'ÍøÕ¾±êÌâ', '1', 'yes'
 ), (
 NULL , '0', 'about_text', 'Y', '1', '<p> Write your self introduction in the <a href=admin>Admin</a> -&gt; <a href=admin/editabout.php>Edit About</a> Page.</p><p> 	Çëµ½<a href=admin>¹ÜÀíÒ³Ãæ</a> -&gt; <a href=admin/editabout.php>±à¼­¸öÈË¼ò½é</a> ÖĞ±à¼­ÄãµÄ¸öÈË¼ò½é¡£</p><p>ÓĞÎÊÌâÇëÁªÏµericfish[at]gmail.com</p>', '20', '8', '×ÔÎÒ½éÉÜÄÚÈİ', '1', 'yes'
 ), (
@@ -172,7 +188,7 @@ NULL , '0', 'about_title', 'Y', '1', 'About Me', '20', '8', '¸öÈË¼ò½é±êÌâ(¿ÉÑ¡)'
 ), (
 NULL , '0', 'rss_link', 'Y', '1', '', '20', '8', 'RSSÁ´½ÓµØÖ·', '1', 'yes'
 ), (
-NULL , '0', 'charset', 'Y', '1', 'utf-8', '20', '8', '×Ö·û¼¯', '1', 'yes'
+NULL , '0', 'charset', 'Y', '1', 'utf-8', '20', '8', '×Ö·û¼¯:utf-8|gb2312', '1', 'yes'
 ), (
 NULL , '0', 'keywords', 'Y', '1', 'blog website', '20', '8', 'ÍøÕ¾¹Ø¼ü×Ö(¿Õ¸ñ·Ö¸ô)', '1', 'yes'
 ), (
@@ -184,24 +200,35 @@ NULL , '0', 'change_password_msg', 'Y', '1', 'ÄúÎ´¸ü¸Ä¹ıadminµÄ³õÊ¼ÃÜÂë£¬Õâ½«¸øÄ
 ), (
 NULL , '0', 'gmt_offset', 'Y', '1', '8', '20', '8', 'ÄãËùÔÚµÄÊ±Çø', '1', 'yes'
 ), (
-NULL , '0', 'rss_language', 'Y', '1', 'zh-CHS', '20', '8', 'RssfeedÓïÑÔ:en,zh-CHS', '1', 'yes'
+NULL , '0', 'rss_language', 'Y', '1', 'zh-CHS', '20', '8', 'RssfeedÓïÑÔ:en|zh-CHS', '1', 'yes'
 ), (
 NULL , '0', 'rss_post_number', 'Y', '1', '10', '20', '8', 'RssÎÄÕÂÊı', '1', 'yes'
 ), (
 NULL , '0', 'footer_text', 'Y', '1', '', '20', '8', '°æÈ¨ĞÅÏ¢', '1', 'yes'
-);
-
-INSERT INTO `gcdb_users` ( `ID` , `user_login` , `user_pass` , `user_firstname` , `user_lastname` , `user_nickname` , `user_nicename` , `user_icq` , `user_email` , `user_url` , `user_ip` , `user_domain` , `user_browser` , `user_registered` , `user_level` , `user_aim` , `user_msn` , `user_yim` , `user_idmode` , `user_activation_key` , `user_status` , `user_description` ) 
+);"));
+	$gcdb->query(trans_sql_utf8("INSERT INTO `gcdb_users` ( `ID` , `user_login` , `user_pass` , `user_firstname` , `user_lastname` , `user_nickname` , `user_nicename` , `user_icq` , `user_email` , `user_url` , `user_ip` , `user_domain` , `user_browser` , `user_registered` , `user_level` , `user_aim` , `user_msn` , `user_yim` , `user_idmode` , `user_activation_key` , `user_status` , `user_description` ) 
 VALUES (
-NULL , 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '0', '', '', '', '', '', '0000-00-00 00:00:00', '0', '', '', '', '', '', '0', ''
-);
-
-INSERT INTO `gcdb_posts` ( `ID` , `post_author` , `post_date` , `post_date_gmt` , `post_content` , `post_title` , `post_tag` , `post_excerpt` , `post_status` , `comment_status` , `ping_status` , `post_password` , `post_name` , `to_ping` , `pinged` , `post_modified` , `post_modified_gmt` , `post_content_filtered` , `post_parent` , `guid` , `menu_order` , `show_in_home` ) 
+NULL , '$user_name', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '0', '', '', '', '', '', '0000-00-00 00:00:00', '0', '', '', '', '', '', '0', ''
+);"));
+	$gcdb->query(trans_sql_utf8("INSERT INTO `gcdb_posts` ( `ID` , `post_author` , `post_date` , `post_date_gmt` , `post_content` , `post_title` , `post_tag` , `post_excerpt` , `post_status` , `comment_status` , `ping_status` , `post_password` , `post_name` , `to_ping` , `pinged` , `post_modified` , `post_modified_gmt` , `post_content_filtered` , `post_parent` , `guid` , `menu_order` , `show_in_home` ) 
 VALUES (
-1 , '0', '2006-02-23 12:12:00', '0000-00-00 00:00:00', 'This is the first test page.', 'Hello world!', '0', '', 'publish', 'open', 'open', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '0', '', '0', 'yes'
-);
-
-INSERT INTO `gcdb_id` ( `ID` ) 
+1 , '0', '2007-04-08 12:14:16', '2007-04-08 04:14:16', 'This is the first test page.', 'Hello world!', '0', '', 'publish', 'open', 'open', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '0', '', '0', 'yes'
+);"));
+	$gcdb->query(trans_sql_utf8("INSERT INTO `gcdb_id` ( `ID` ) 
 VALUES (
 2
-);
+);"));
+
+}
+endif;
+
+function gc_check_mysql_version() {
+	global $gc_version;
+
+	// Make sure the server has MySQL 4.0
+	$mysql_version = preg_replace('|[^0-9\.]|', '', @mysql_get_server_info());
+	if ( version_compare($mysql_version, '4.0.0', '<') )
+		die(sprintf(__('<strong>ERROR</strong>: WordPress %s requires MySQL 4.0.0 or higher'), $gc_version));
+}
+
+?>
