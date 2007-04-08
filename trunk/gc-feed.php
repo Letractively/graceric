@@ -7,11 +7,11 @@
 *
 *  Subversion Keywords:
 *
-*  $Id: feed.php 13 2007-03-30 07:52:56Z ericfish $
-*  $LastChangedDate: 2007-03-30 15:52:56 +0800 (Fri, 30 Mar 2007) $
-*  $LastChangedRevision: 13 $
-*  $LastChangedBy: ericfish $
-*  $URL: https://graceric.googlecode.com/svn/trunk/gc-themes/default/feed.php $
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
 */
 
 global $db_query;

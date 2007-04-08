@@ -186,6 +186,19 @@ function the_title($echo=true) {
 		else
 		  $blog_title = "";
     }
+    elseif(is_x()) {	
+		$x = $gcdb->escape($db_query->query_vars['x']);
+		$request2 = "SELECT post_ID FROM $gcdb->x WHERE x_name='$x'";
+		$q = $gcdb->get_var($request2);
+		$q = (int)$gcdb->escape($q);
+		$request = "SELECT post_title FROM $gcdb->posts WHERE ID=$q";
+		
+		$post_title = $gcdb->get_var($request);
+		if(isset($post_title))
+		  $blog_title = get_option('blog_title').": ".$post_title;
+		else
+		  $blog_title = "";
+    }
     elseif(is_archive()) {	
     	$month = "";
     	if(isset($db_query->query_vars['month']))
@@ -254,6 +267,10 @@ function get_blog_author() {
 
 function get_blog_keywords() {
     echo(get_option('keywords'));
+}
+
+function get_blog_footer_text() {
+    echo(get_option('footer_text'));
 }
 
 // Get the rss link from option
@@ -385,6 +402,7 @@ function recent_post_links(){
     		$request_prv = "SELECT a.ID, a.post_title FROM $gcdb->posts a,$gcdb->post2tag b";
     		$request_prv .= " WHERE a.post_date < '".$cuurent_post_date;
     		$request_prv .= "' AND post_status = 'publish'";
+    		$request_prv .= " AND ping_status = 'open'";
     		$request_prv .= " AND b.tag_id = ".$tag_id;
     		$request_prv .= " AND a.ID = b.post_id";
     		if(!user_is_auth())
@@ -416,6 +434,7 @@ function recent_post_links(){
     		$request_prv = "SELECT ID, post_title FROM $gcdb->posts";
     		$request_prv .= " WHERE post_date < '".$cuurent_post_date;
     		$request_prv .= "' AND post_status = 'publish'";
+    		$request_prv .= " AND ping_status = 'open'";
     		if(!user_is_auth())
     		{
     		     $request_prv .= " AND show_in_home = 'yes'";

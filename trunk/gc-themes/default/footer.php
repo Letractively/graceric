@@ -16,6 +16,7 @@
 ?>
 
 	<div style="visibility: hidden;">
+		<?php get_blog_footer_text(); ?>
 	</div>
 
 </div>

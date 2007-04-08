@@ -52,7 +52,7 @@ A.g_title:active {
 /*Box with the form elements*/
 div.blogkbox
     {
-    width: 400px;
+    width: 380px;
     color:#403116;
 	border-top: #403116 1px solid
 	border-bottom: #403116 1px solid
@@ -65,7 +65,7 @@ div.blogkbox
 /*Box around the comments*/
 div.blogkcomments
     {
-    width: 400px; 
+    width: 380px; 
     color:#403116;
 	border-top: #403116 1px solid
 	border-bottom: #403116 1px solid
