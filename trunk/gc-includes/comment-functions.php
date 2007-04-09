@@ -26,7 +26,7 @@ function show_comment_link() {
 	$request = "SELECT tag_id FROM $gcdb->tags WHERE tag_name = 'tech'";
 	$tag_id = $gcdb->get_var($request);
 	
-	$text = "<a href='?q=$current_postID&comment#comment'>Comment ($comments_number)</a>";
+	$text = "<a href='".comments_permalink($current_postID)."'>Comment ($comments_number)</a>";
 	return $text;
 }
 
