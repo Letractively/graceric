@@ -65,7 +65,7 @@ function show_comments() {
 		  echo($comment_author_email);
 		}
 		echo("$comment_author_url, $comment_date");
-		echo(" <a href='?q=".the_ID(false)."&comment#".bin2hex($comment_date)."'>link</a>");
+		echo(" <a href='".comment_permalink()."#".bin2hex($comment_date)."'>link</a>");
 		if(user_is_auth())
 		{
 		    echo(" <span onclick=\"javascript:xajax_saveSpamComment($comment_ID);\"><a href=\"javascript://\">spam?</a></span>");

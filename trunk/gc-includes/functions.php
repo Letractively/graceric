@@ -28,6 +28,8 @@
 * Counter functions
 * Feed functions
 * Security functions
+* Install
+* URL Rewrite
 */
 
 /***** Page define functions (check which page it is) *****/
@@ -279,32 +281,32 @@ function get_blog_sidebar()
     if(is_page()||is_home()) 
         echo("JOURNAL\n");
 	else
-	   echo("<a href=\"./\">journal</a>\n");
+	   echo("<a href=\"".baseurl_permalink()."\">journal</a>\n");
     
     if(is_archive()) 
         echo("<BR><BR>ARCHIVE\n");
 	else
-	   echo("<BR><BR><a href=\"./?archive\">archive</a>\n");
+	   echo("<BR><BR><a href=\"".archive_permalink()."\">archive</a>\n");
     
     if(is_search()) 
         echo("<BR><BR>SEARCH\n");
 	else
-	   echo("<BR><BR><a href=\"./?search\">search</a>\n");
+	   echo("<BR><BR><a href=\"".search_permalink()."\">search</a>\n");
     
     if(is_about()) 
         echo("<BR><BR>ABOUT\n");
 	else
-	   echo("<BR><BR><a href=\"./?about\">about</a>\n");
+	   echo("<BR><BR><a href=\"".about_permalink()."\">about</a>\n");
     
     if(is_links()) 
         echo("<BR><BR>LINKS\n");
 	else
-	   echo("<BR><BR><a href=\"./?links\">links</a>\n");
+	   echo("<BR><BR><a href=\"".links_permalink()."\">links</a>\n");
     
     if(is_tags()) 
         echo("<BR><BR>TAGS\n");
 	else
-	   echo("<BR><BR><a href=\"./?tags\">tags</a>\n");
+	   echo("<BR><BR><a href=\"".tags_permalink()."\">tags</a>\n");
 }
 
 // Get the rss link from option
@@ -312,7 +314,7 @@ function get_blog_rsslink()
 {
     $rss_link = get_option('rss_link');
     if($rss_link==""){
-        $rss_link = get_option('base_url')."/?feed";
+        $rss_link = feed_permalink();
     }
     echo $rss_link;
 }
@@ -424,7 +426,7 @@ function recent_post_links(){
     			if(is_home()||is_page()) {
     			    for ($i=0;$i<$prv_posts_num;$i++) { 
     			        $prv_post = $prv_posts[$i];	    
-    				    echo("&laquo;&laquo;&laquo; <a href='?q=$prv_post->ID&tagid=$tag_id' title='click to view previous blog'>$prv_post->post_title</a><br/><br/>");
+    				    echo("&laquo;&laquo;&laquo; <a href='".get_permalink($prv_post->ID,$tag_id)."' title='click to view previous blog'>$prv_post->post_title</a><br/><br/>");
     			    }
     			}
     		}
@@ -455,7 +457,7 @@ function recent_post_links(){
     			if(is_home()||is_page()) {
     			    for ($i=0;$i<$prv_posts_num;$i++) { 
     			        $prv_post = $prv_posts[$i];
-    				    echo("&laquo;&laquo;&laquo; <a href='?q=$prv_post->ID' title='click to view previous blog'>$prv_post->post_title</a><br/><br/>");
+    				    echo("&laquo;&laquo;&laquo; <a href='".get_permalink($prv_post->ID)."' title='click to view previous blog'>$prv_post->post_title</a><br/><br/>");
     			    }
     			}
     		}
@@ -655,7 +657,7 @@ function get_post_tags(){
 		$tag = $tags[$i];
 		$tag_name = $tag->tag_name;
 		$tag_nicename = $tag->tag_nicename;
-		echo " <A class='grey' HREF='?tag=$tag_name' title='$tag_nicename'>$tag_name</A>";
+		echo " <A class='grey' HREF='".tag_permalink($tag_name)."' title='$tag_nicename'>$tag_name</A>";
 	}
 }
 
@@ -675,7 +677,7 @@ function get_tags(){
 		$title = $tag->title;
 		
 		//echo " <a href='?tag=$tag_name' title='$title'>$tag_name</a> <a href='./?feed=$tag_name' class='grey' target='_blank'><img src='./gc-themes/o_rss.gif' border='0' height='16' width='16' align='absbottom'/></a> <br><br> ";
-		echo " <a href='?tag=$tag_name' title='$title'>$tag_name</a><br><br> ";
+		echo " <a href='".tag_permalink($tag_name)."' title='$title'>$tag_name</a><br><br> ";
 	}
 }
 
@@ -698,7 +700,7 @@ function get_tag(){
 		$post_date = mysql2date("l, F d, Y", $post_date);
 		$post_title = $post->post_title;
 		$post_tagid = $post->tag_ID;
-		$result = "<div class='date'><img src='./".TPPATH."/pic/sq.gif' width='7' height='7'> $post_date</div><div class='archivepage'><a href='?q=$post_ID&tagid=$post_tagid' title='permanent link'>$post_title</a></div>\n";
+		$result = "<div class='date'><img src='./".TPPATH."/pic/sq.gif' width='7' height='7'> $post_date</div><div class='archivepage'><a href='".get_permalink($post_ID,$post_tagid)."' title='permanent link'>$post_title</a></div>\n";
 		echo $result;
 	}
 }
@@ -717,7 +719,7 @@ function get_archives(){
 		$month = $months[$i];
 		$date_dis = $month->date_dis;
 		$date_url = $month->date_url;
-		echo " <a href='?archive&month=$date_url'>$date_dis</a><br><br> ";
+		echo " <a href='".archivemonth_permalink($date_url)."'>$date_dis</a><br><br> ";
 	}
 }
 
@@ -781,7 +783,7 @@ function processSearchForm($aFormValues)
     		$search_result = $search_results[$i];
     		$post_ID = $search_result->ID;
     		$post_title = $search_result->post_title;
-    		$text.= "<a href='?q=$post_ID'>$post_title</a><br><br>\n";
+    		$text.= "<a href='".get_permalink($post_ID)."'>$post_title</a><br><br>\n";
     	}
     	
     	$objResponse = new xajaxResponse();
@@ -1035,19 +1037,83 @@ function is_blog_installed() {
 }
 
 /**** URL Rewrite ****/
-function get_permalink($id=0){
+
+function baseurl_permalink(){
+    return get_option('base_url');
+}
+
+function get_permalink($id=0,$tagid=0){
+    $taglink="";
     if($id==0)
         $id=the_ID(false);
-    $base_url=get_option('base_url');
-    return $base_url.'/?q='.$id;
+    if($tagid!=0)
+        $taglink="&tagid=$tagid";
+    return baseurl_permalink().'/?q='.$id.$taglink;
+}
+
+function comment_permalink($id=0,$tagid=0){
+    $taglink="";
+    if($id==0)
+        $id=the_ID(false);
+    if($tagid!=0)
+        $taglink="&tagid=$tagid";
+    return baseurl_permalink().'/?q='.$id.'&comment'.$taglink;
 }
 
 function comments_permalink($id=0){
     if($id==0)
         $id=the_ID(false);
-    $base_url=get_option('base_url');
-    return $base_url.'/?q='.$id."&comment#comment";
+    return baseurl_permalink().'/?q='.$id."&comment#comment";
 }
+
+function archive_permalink(){
+    return baseurl_permalink()."/?archive";
+}
+
+function archivemonth_permalink($month){
+    return baseurl_permalink()."/?archive&month=$month";
+}
+
+function search_permalink(){
+    return baseurl_permalink()."/?search";
+}
+
+function about_permalink(){
+    return baseurl_permalink()."/?about";
+}
+
+function links_permalink(){
+    return baseurl_permalink()."/?links";
+}
+
+function tags_permalink(){
+    return baseurl_permalink()."/?tags";
+}
+
+function tag_permalink($tag){
+    return baseurl_permalink()."/?tag=$tag";
+}
+
+function feed_permalink(){
+    return baseurl_permalink()."/?feed";
+}
+
+function tagfeed_permalink($tag){
+    return baseurl_permalink()."/?feed=$tag";
+}
+
+/*
+function post_permalink($post_id = 0, $mode = '') {
+	return get_settings('base_url').'/?q='.$post_id;
+}
+
+function get_category_link($tag_name) { 
+	return get_settings('base_url').'/?tag='.$tag_name;
+}
+
+function get_category_rss_link($tag_name) { 
+	return get_settings('base_url').'/?feed='.$tag_name;
+}*/
 
 
 ?>

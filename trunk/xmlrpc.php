@@ -672,7 +672,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    }
 
 	    $post = get_extended($postdata['post_content']);
-	    $link = post_permalink($postdata['ID']);
+	    $link = get_permalink($postdata['ID']);
 
 	    $allow_comments = 1;
 	    $allow_pings = 1;
@@ -732,7 +732,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    }
 
 	    $post = get_extended($entry['post_content']);
-	    $link = post_permalink($entry['ID']);
+	    $link = get_permalink($entry['ID']);
 
 	    $allow_comments = 1;
 	    $allow_pings = 1;
@@ -788,8 +788,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	      $struct['categoryId'] = $cat['tag_ID'];
 	      $struct['description'] = transcode($cat['tag_name']);
 	      $struct['categoryName'] = transcode($cat['tag_name']);
-	      $struct['htmlUrl'] = get_category_link(transcode($cat['tag_name']));
-	      $struct['rssUrl'] = get_category_rss_link(transcode($cat['tag_name']));
+	      $struct['htmlUrl'] = tag_permalink(transcode($cat['tag_name']));
+	      $struct['rssUrl'] = tagfeed_permalink(transcode($cat['tag_name']));
 	      
 	      $categories_struct[] = $struct;
 	    }

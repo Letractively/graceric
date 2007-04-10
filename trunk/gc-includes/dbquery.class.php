@@ -337,7 +337,7 @@ class DB_Query {
 			// send email to admin
 			if(get_settings('comment_email')=="yes"){
     			$admin_mail = get_settings('admin_email');
-    			$post_url = get_settings('base_url')."/?q=".$current_postID;
+    			$post_url = get_permalink($current_postID);
     			
     			$mail_content=stripslashes($comm_content); 
     		   	$subject = "a new blog comment by $comm_name";
