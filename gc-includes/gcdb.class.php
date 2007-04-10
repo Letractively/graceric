@@ -82,7 +82,7 @@ class gcdb {
 <li>Are you sure it exists?</li>
 <li>On some systems the name of your database is prefixed with your username, so it would be like username_wordpress. Could that be the problem?</li>
 </ul>
-<p>If you don't know how to setup a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href='http://www.ericfish.com/'>_blank</a>.</p>");
+<p>If you don't know how to setup a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href='http://www.ericfish.com/graceric'>_blank - Graceric Blog</a>.</p>");
 		}
 	}
 
