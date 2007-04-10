@@ -300,18 +300,6 @@ function idPlusOne(){
 	$gcdb->query($request);
 }
 
-function post_permalink($post_id = 0, $mode = '') {
-	return get_settings('base_url').'/?q='.$post_id;
-}
-
-function get_category_link($tag_name) { 
-	return get_settings('base_url').'/?tag='.$tag_name;
-}
-
-function get_category_rss_link($tag_name) { 
-	return get_settings('base_url').'/?feed='.$tag_name;
-}
-
 /**** transfer between utf8 and gb2312 ****/
 
 // transfer gb2312 to utf-8

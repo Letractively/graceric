@@ -22,11 +22,13 @@ else
 	
 if (isset($_GET['charset'])){
 	$charset = $_GET['charset'];
-	if($charset=='utf8')
+	if($charset=='utf8'){
 	   $charset = 'utf-8';
+	}
 }
-else
+else{
 	$charset = 'utf-8';
+}
 	
 header( 'Content-Type: text/html; charset=gb2312' );
 ?>
