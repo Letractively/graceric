@@ -15,8 +15,8 @@
 */
 ?>
 
-<span class="lastpost">[<a class="blogkommlink" href="?q=<? the_ID(); ?>">Hide comment</a>]</span>
-<form method="post" name="comm" action="?q=<? the_ID(); ?>&comment#comment">
+<span class="lastpost">[<a class="blogkommlink" href="<?=get_permalink(); ?>">Hide comment</a>]</span>
+<form method="post" name="comm" action="<?=comment_permalink(); ?>#comment">
 
 	<a name="comment"></a>
 	<?php show_comments(); ?>
