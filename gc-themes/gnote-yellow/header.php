@@ -27,7 +27,7 @@ if(isset($xajax)) $xajax->printJavascript(WPINC.'/');
     <div class="wrapper">
       <div id="header">
         <div class="wrapper">
-          <h1 id="page-title"><div id='g_title'><A class="g_title" href="./"><?php get_blog_title(); ?></A></div></h1>
+          <h1 id="page-title"><div id='g_title'><A class="g_title" href="<?get_blog_base_url();?>"><?php get_blog_title(); ?></A></div></h1>
           <div style="clear: both"></div>
           <p class="description"><div id='g_description'><p><?php get_blog_subtitle(); ?></p></div></p>
           <div style="clear: both"></div>

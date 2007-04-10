@@ -49,9 +49,6 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	elseif (is_links()) {
 		include(TEMPLATEPATH . '/links.php');
 	}
-	elseif (is_tag()) {
-		include(TEMPLATEPATH . '/tag.php');
-	}
 	elseif (is_feed()) {
 		include(ABSPATH. 'gc-feed.php');
 	}
