@@ -40,5 +40,5 @@ if(isset($xajax)) $xajax->printJavascript(WPINC.'/');
 <body>
 <div id="frame">
 	<div id="contentheader">
-		<A href="./" class="grey"><img src="./<?=TPPATH?>/pic/title.gif" border="0"></A>
+		<A href="<?get_blog_base_url();?>" class="grey"><img src="./<?=TPPATH?>/pic/title.gif" border="0"></A>
 	</div>
