@@ -80,7 +80,7 @@ $xajax->processRequests();
     <td class="short"><input type="text" name="a_spamtype" id="a_spamtype" tabindex="2" size="20" value="text" > (name,email,text,ip)</td>
 </tr>
 <tr class="withover">
-    <td class="short">&nbsp; &nbsp;<input type="submit" value="Add Link" onclick="javascript:xajax_saveAddSpam(document.getElementById('a_spamvalue').value,document.getElementById('a_spamtype').value);javascript:document.getElementById('lo').style.display='block';javascript:document.getElementById('lo').innerHTML='Saving';javascript:document.getElementById('lo').style.background='#c44';" /></td>
+    <td class="short">&nbsp; &nbsp;<input type="submit" value="Add Spam" onclick="javascript:xajax_saveAddSpam(document.getElementById('a_spamvalue').value,document.getElementById('a_spamtype').value);javascript:document.getElementById('lo').style.display='block';javascript:document.getElementById('lo').innerHTML='Saving';javascript:document.getElementById('lo').style.background='#c44';" /></td>
 </tr>
 </table>
 
