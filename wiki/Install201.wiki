@@ -1,4 +1,4 @@
-#labels Featured,Phase-QA
+#labels Phase-Deploy
 运行环境：
 
 PHP 4 & MySQL 4
