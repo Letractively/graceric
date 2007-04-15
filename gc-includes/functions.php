@@ -309,6 +309,23 @@ function get_blog_sidebar()
 	   echo("<BR><BR><a href=\"".tags_permalink()."\">tags</a>\n");
 }
 
+function get_all_tags_edit(){
+    global $gcdb;
+    $request = "SELECT tag_id,tag_name FROM $gcdb->tags";
+	
+	$tags = $gcdb->get_results($request);
+	$numbers = count($tags);
+	
+	for($i=0;$i<$numbers;$i++)
+	{
+		$tag = $tags[$i];
+		$tag_id = $tag->tag_id;
+		$tag_name = $tag->tag_name;
+		
+		echo " <A href='javascript:swap(\"$tag_name\")'>$tag_name</A>";
+	}
+}
+
 // Get the rss link from option
 function get_blog_rsslink()
 {

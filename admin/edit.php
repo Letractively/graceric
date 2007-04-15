@@ -97,6 +97,30 @@ remove_linebreaks : true
 function customSave(id, content) {
 // alert(id + "=" + content);
 }
+
+function swap(tag){
+	tagbox = document.getElementById('post_tags');
+	tagbox.value += tag+" ";
+	focusTo(tagbox);
+}
+
+// focus the caret to end of a form input (+ optionally select some text)
+var range=0 //ie
+function focusTo(obj, selectFrom) {
+	if (typeof selectFrom == 'undefined') selectFrom = obj.value.length
+	if(obj.createTextRange){ //ie + opera
+		if (range == 0) range = obj.createTextRange()
+		range.moveEnd("character",obj.value.length)
+		range.moveStart("character",selectFrom)
+		//obj.select()
+		//range.select()
+		setTimeout('range.select()', 10)
+	} else if (obj.setSelectionRange){ //ff
+		obj.select()
+		obj.setSelectionRange(selectFrom,obj.value.length)
+	} else { //safari :(
+	 obj.blur()
+}}
 </script>
 <!-- end: tinyMCE -->
 
@@ -154,7 +178,7 @@ function customSave(id, content) {
                       </TD></TR></TBODY></TABLE></TD></TR>
               <TR id=tr_list-view-sortRow>
                 <TD> &nbsp;&nbsp;&nbsp;Tags:
-                <INPUT id="post_tags" name="post_tags" size="30" value="<?=$post_tags?>">
+                <INPUT id="post_tags" name="post_tags" size="50" value="<?=$post_tags?>"><br/>&nbsp;&nbsp;&nbsp;<? get_all_tags_edit();?>
                 </TD></TR></TBODY>
                 
                 </TABLE></DIV>
