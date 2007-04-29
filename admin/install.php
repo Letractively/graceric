@@ -102,7 +102,7 @@ switch($step) {
 <p><em>Finished!</em></p>
 
 <p><?php printf('Now you can <a href="%1$s">log in</a> with the <strong>username</strong> "<code>admin</code>" and <strong>password</strong> "<code>%2$s</code>"', './login.php', $password); ?></p>
-<p><strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you. If you lose it, you will have to delete the tables from the database yourself, and re-install Graceric. So to review:</p>
+
 
 <dl>
 	<dt>Username</dt>
