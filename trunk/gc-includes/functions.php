@@ -1020,12 +1020,12 @@ function gc_die($message, $title = '') {
 	header('Content-Type: text/html; charset=utf-8');
 
 	if ( empty($title) )
-		$title = __('WordPress &rsaquo; Error');
+		$title = __('Graceric &rsaquo; Error');
 
-	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
+	if ( strstr($_SERVER['PHP_SELF'], 'admin') )
 		$admin_dir = '';
 	else
-		$admin_dir = 'wp-admin/';
+		$admin_dir = 'admin/';
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
