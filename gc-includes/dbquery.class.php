@@ -297,10 +297,14 @@ class DB_Query {
 	// Get comments of the post
 	function get_comment() {
 		global $gcdb;
+		$add_seconds_server = date('Z');
+		$add_seconds_blog = get_settings('gmt_offset') * 3600;
+		$add_seconds = $add_seconds_server - $add_seconds_blog;
 		
 		$current_postID = $this->posts[0]->ID;
 		$current_postID = $gcdb->escape($current_postID);
-		$request = "SELECT comment_ID,comment_author,comment_author_email,comment_author_url,comment_content,comment_date FROM $gcdb->comments WHERE comment_post_ID = $current_postID";
+		//$request = "SELECT comment_ID,comment_author,comment_author_email,comment_author_url,comment_content,comment_date FROM $gcdb->comments WHERE comment_post_ID = $current_postID";
+		$request = "SELECT comment_ID,comment_author,comment_author_email,comment_author_url,comment_content,DATE_ADD(comment_date, INTERVAL '$add_seconds' SECOND) AS comment_date FROM $gcdb->comments WHERE comment_post_ID = $current_postID";
 		$request .= " AND comment_approved='1'";
 		$request .= " ORDER BY comment_date";
 		
