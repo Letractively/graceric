@@ -299,7 +299,7 @@ class DB_Query {
 		global $gcdb;
 		$add_seconds_server = date('Z');
 		$add_seconds_blog = get_settings('gmt_offset') * 3600;
-		$add_seconds = $add_seconds_server - $add_seconds_blog;
+		$add_seconds = $add_seconds_blog - $add_seconds_server;
 		
 		$current_postID = $this->posts[0]->ID;
 		$current_postID = $gcdb->escape($current_postID);
