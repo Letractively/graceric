@@ -1,0 +1,10 @@
+#labels Phase-Requirements
+R203 Plan Functions
+
+= Details =
+
+1. Quick Import function
+2. iconv problem in the installation fix
+3. new templates
+4. xmlprc works fine on the latest live writer
+5. 自定义日志时间
