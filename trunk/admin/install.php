@@ -49,7 +49,7 @@ switch($step) {
 	case 0:
 ?>
 <p>Welcome to Graceric installation. We&#8217;re now going to go through a few steps to get you up and running with the latest in personal publishing platforms. You may want to peruse the <a href="readme.html">ReadMe documentation</a> at your leisure.</p>
-<h2 class="step"><a href="install.php?step=1&prefix=<?=$prefix?>&charset=<?=$charset?>">First Step &raquo;</a></h2>
+<h2 class="step"><a href="install.php?step=1&prefix=<?php echo($prefix);?>&charset=<?php echo($charset);?>">First Step &raquo;</a></h2>
 <?php
 		break;
 	case 1:
@@ -57,7 +57,7 @@ switch($step) {
 <h1>First Step</h1>
 <p>Before we begin we need a little bit of information. Don't worry, you can always change these later.</p>
 
-<form id="setup" method="post" action="install.php?step=2&prefix=<?=$prefix?>&charset=<?=$charset?>">
+<form id="setup" method="post" action="install.php?step=2&prefix=<?php echo($prefix);?>&charset=<?php echo($charset);?>">
 	<table width="100%">
 		<tr>
 			<th width="33%">Weblog title:</th>

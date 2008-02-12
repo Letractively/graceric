@@ -188,7 +188,7 @@ switch($step) {
 	fclose($handle);
 	chmod('../gc-config.php', 0666);
 ?>
-<p>All right sparky! You've made it through this part of the installation. Graceric can now communicate with your database. If you are ready, time now to <a href="install.php?prefix=<?=$prefix?>&charset=<?=$charset?>">run the install!</a></p>
+<p>All right sparky! You've made it through this part of the installation. Graceric can now communicate with your database. If you are ready, time now to <a href="install.php?prefix=<?php echo($prefix);?>&charset=<?php echo($charset);?>">run the install!</a></p>
 <?php
 	break;
 }

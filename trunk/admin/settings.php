@@ -28,7 +28,7 @@ $xajax->processRequests();
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Site Settings</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=<?get_blog_charset();?>">
+<META http-equiv=Content-Type content="text/html; charset=<?php get_blog_charset();?>">
 <LINK href="style/style.css" rel=stylesheet>
 
 <?php $xajax->printJavascript('../gc-includes/'); ?>

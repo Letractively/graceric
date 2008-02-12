@@ -1,6 +1,6 @@
 
-<span class="lastpost">[<a class="blogkommlink" href="<?=get_permalink(); ?>">Hide comment</a>]</span>
-<form method="post" name="comm" action="<?=comment_permalink(); ?>#comment">
+<span class="lastpost">[<a class="blogkommlink" href="<?php echo(get_permalink()); ?>">Hide comment</a>]</span>
+<form method="post" name="comm" action="<?php echo(comment_permalink()); ?>#comment">
 
 	<a name="comment"></a>
 	<?php show_comments(); ?>
@@ -11,13 +11,13 @@
 		<div class="blogkbox">
 			<div class="blogkrow">
 			<strong>Add comment here</strong><br/>
-  			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_name" value="<? get_cookie_name(); ?>" size="32" maxlength="30"/> (name)</span>
+  			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_name" value="<?php get_cookie_name(); ?>" size="32" maxlength="30"/> (name)</span>
 		</div>
 		<div class="blogkrow">
- 			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_e_mail" value="<?get_cookie_mail(); ?>" size="32" maxlength="30"/> (email: not visible to others)</span>
+ 			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_e_mail" value="<?php get_cookie_mail(); ?>" size="32" maxlength="30"/> (email: not visible to others)</span>
 		</div>
     	<div class="blogkrow">
-  			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_website"  size="32" value="<? get_cookie_www();?>" /> (url)</span>
+  			<span class="blogkRightClmn"><input class="formfield2" type="text" name="comm_website"  size="32" value="<?php get_cookie_www();?>" /> (url)</span>
 		</div>
 		<div class="blogkrow">
   			<span class="blogkRightClmn">

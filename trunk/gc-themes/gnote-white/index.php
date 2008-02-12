@@ -17,11 +17,11 @@ if(user_is_auth())
 	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>	
 	
 		<div class="date">	
-			<img class="bullet" src="./<?=TPPATH?>/pic/bullet.gif" border="0"> <?php the_date("l, F d, Y"); ?>
+			<img class="bullet" src="./<?php echo(TPPATH);?>/pic/bullet.gif" border="0"> <?php the_date("l, F d, Y"); ?>
 		</div>
 
 		<div class="blogbody">
-		<P><? get_lock_icon();?> <font color="#999999"><b><?php the_post_title(); ?></b></font>
+		<P><?php get_lock_icon();?> <font color="#999999"><b><?php the_post_title(); ?></b></font>
 		
 		<span class='archivepage'><font color="#999999">
 		(tags:<?php get_post_tags();?>)
