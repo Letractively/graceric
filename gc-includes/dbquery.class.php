@@ -87,6 +87,8 @@ class DB_Query {
 
 	function &query($query) {
 		$this->parse_query($query);
+		$result = true;
+		return $result;
 	}
 
 	// Reparse the query vars.

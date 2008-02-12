@@ -59,7 +59,7 @@ else {
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Edit Post</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=<?get_blog_charset();?>">
+<META http-equiv=Content-Type content="text/html; charset=<?php get_blog_charset();?>">
 <LINK href="style/style.css" rel=stylesheet>
 
 <!-- tinyMCE -->
@@ -149,8 +149,8 @@ function focusTo(obj, selectFrom) {
               <TR id=tr_new-page-2-list-view>
                   <TD>
                   
-                  Title: <INPUT id="post_title" name="post_title" size="40" value="<?=$post_title?>">
-                 <input type="hidden" id="post_id" name="post_id" value='<?=$post_id?>'>
+                  Title: <INPUT id="post_title" name="post_title" size="40" value="<?php echo($post_title);?>">
+                 <input type="hidden" id="post_id" name="post_id" value='<?php echo($post_id);?>'>
                   </TD></TR></THEAD>
               <TBODY></TBODY></TABLE>
             </DIV>
@@ -162,7 +162,7 @@ function focusTo(obj, selectFrom) {
            
               <THEAD id="tr_list-view-tbody">
 <tr><td>
-<textarea rows="9" name="EditorAccessibility" id="EditorAccessibility" style="width: 100%; word-break: break-all"><?=$post_content ?></textarea>
+<textarea rows="9" name="EditorAccessibility" id="EditorAccessibility" style="width: 100%; word-break: break-all"><?php echo($post_content); ?></textarea>
 </td></tr>
               </THEAD>
               <TBODY>
@@ -172,13 +172,13 @@ function focusTo(obj, selectFrom) {
                     <TBODY>
                     <TR id=tr_new-page-2-list-view>
                       <TD>
-                      <b>Can everyone see it?</b> Public <input type="radio" value="yes" <? if($is_show)echo('checked')?> name="show_in_home"> Private <input type="radio" name="show_in_home" value="no" <? if(!$is_show)echo('checked')?>> | 
-                      <b>Allow comments?</b> Yes <input type="radio" value="open" <? if($allow_comment)echo('checked')?> name="allow_comment"> No <input type="radio" name="allow_comment" value="closed" <? if(!$allow_comment)echo('checked')?>> | 
-                      <b>Display on Homepage?</b> Show <input type="radio" value="open" <? if($home_hide)echo('checked')?> name="home_hide"> Hide <input type="radio" name="home_hide" value="closed" <? if(!$home_hide)echo('checked')?>>                      
+                      <b>Can everyone see it?</b> Public <input type="radio" value="yes" <?php if($is_show)echo('checked')?> name="show_in_home"> Private <input type="radio" name="show_in_home" value="no" <?php if(!$is_show)echo('checked')?>> | 
+                      <b>Allow comments?</b> Yes <input type="radio" value="open" <?php if($allow_comment)echo('checked')?> name="allow_comment"> No <input type="radio" name="allow_comment" value="closed" <?php if(!$allow_comment)echo('checked')?>> | 
+                      <b>Display on Homepage?</b> Show <input type="radio" value="open" <?php if($home_hide)echo('checked')?> name="home_hide"> Hide <input type="radio" name="home_hide" value="closed" <?php if(!$home_hide)echo('checked')?>>                      
                       </TD></TR></TBODY></TABLE></TD></TR>
               <TR id=tr_list-view-sortRow>
                 <TD> &nbsp;&nbsp;&nbsp;Tags:
-                <INPUT id="post_tags" name="post_tags" size="50" value="<?=$post_tags?>"><br/>&nbsp;&nbsp;&nbsp;<? get_all_tags_edit();?>
+                <INPUT id="post_tags" name="post_tags" size="50" value="<?php echo($post_tags);?>"><br/>&nbsp;&nbsp;&nbsp;<?php get_all_tags_edit();?>
                 </TD></TR></TBODY>
                 
                 </TABLE></DIV>

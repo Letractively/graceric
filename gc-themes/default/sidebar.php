@@ -22,7 +22,7 @@
 			
 			<BR>
 			
-			<BR><BR><a href="<?get_blog_rsslink();?>" target="_blank">rss</A>
+			<BR><BR><a href="<?php get_blog_rsslink();?>" target="_blank">rss</A>
 			
 			
 			<BR><BR><BR>

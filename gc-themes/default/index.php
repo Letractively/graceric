@@ -33,11 +33,11 @@ if(user_is_auth())
 	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>	
 	
 		<div class="date">	
-			<img src="./<?=TPPATH?>/pic/sq.gif" width="7" height="7"> <?php the_date("l, F d, Y"); ?>
+			<img src="./<?php echo(TPPATH);?>/pic/sq.gif" width="7" height="7"> <?php the_date("l, F d, Y"); ?>
 		</div>
 
 		<div class="blogbody">
-		<P><? get_lock_icon();?> <font color="#999999"><b><?php the_post_title(); ?></b></font>
+		<P><?php get_lock_icon();?> <font color="#999999"><b><?php the_post_title(); ?></b></font>
 		
 		<span class='archivepage'><font color="#999999">
 		(tags:<?php get_post_tags();?>)
@@ -56,12 +56,12 @@ if(user_is_auth())
 		</div>
 
 	<?php endwhile; else: ?>
-		<?php //echo("<div class=\"blogbody\"><P>Äú·ÃÎÊµÄÒ³Ãæ²»´æÔÚ£¬<br/>ÇëÈ¥<a href=\"./?search\">ËÑË÷</a>Ò³Ãæ²éÕÒÏà¹ØµÄÄÚÈÝ¡£</P></div><br/><br/><br/><br/><br/><br/><br/>");
+		<?php //echo("<div class=\"blogbody\"><P>ï¿½ï¿½ï¿½ï¿½Êµï¿½Ò³ï¿½æ²»ï¿½ï¿½ï¿½Ú£ï¿½<br/>ï¿½ï¿½È¥<a href=\"./?search\">ï¿½ï¿½ï¿½ï¿½</a>Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½Ý¡ï¿½</P></div><br/><br/><br/><br/><br/><br/><br/>");
         header("location:404.php"); ?>
 	<?php endif; ?>
 
 				<span class="lastpost">
-					<? recent_post_links(); ?>
+					<?php recent_post_links(); ?>
 				</span>
 				<BR><BR><BR><BR><BR><BR>
 	</div>

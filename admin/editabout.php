@@ -89,7 +89,7 @@ function customSave(id, content) {
            
               <THEAD id="tr_list-view-tbody">
 <tr><td>
-<textarea rows="9" name="EditorAccessibility" id="EditorAccessibility" style="width: 100%; word-break: break-all"><? getAboutOption(); ?></textarea>
+<textarea rows="9" name="EditorAccessibility" id="EditorAccessibility" style="width: 100%; word-break: break-all"><?php getAboutOption(); ?></textarea>
 </td></tr>
               </THEAD>
                               

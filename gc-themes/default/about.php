@@ -22,7 +22,7 @@
 	<div id="contentcenter">
 
 <div class="date">	
-		<img src="./<?=TPPATH?>/pic/sq.gif" width="7" height="7"> <?php get_blog_about_title(); ?>
+		<img src="./<?php echo(TPPATH);?>/pic/sq.gif" width="7" height="7"> <?php get_blog_about_title(); ?>
 	</div>	
 
 <div class="blogbody">
@@ -32,7 +32,7 @@
 
 
 <div class="date">	
-		<img src="./<?=TPPATH?>/pic/sq.gif" width="7" height="7"> Site Stat
+		<img src="./<?php echo(TPPATH);?>/pic/sq.gif" width="7" height="7"> Site Stat
 	</div>	
 <p>
 	<p>

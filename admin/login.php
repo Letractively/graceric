@@ -1,4 +1,4 @@
-<? 
+<?php 
 /* Graceric
 *  Author: ericfish
 *  File: /admin/login.php
@@ -34,7 +34,7 @@ else
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Login</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=<?get_blog_charset();?>">
+<META http-equiv=Content-Type content="text/html; charset=<?php get_blog_charset();?>">
 <LINK href="style/style.css" rel=stylesheet>
 </HEAD>
 <BODY>
@@ -68,7 +68,7 @@ else
 						</p>
 						<p align="center">
                       	&nbsp;&nbsp;&nbsp;<input class=tr_submit type=submit name="login" value="  login  ">
-						&nbsp;&nbsp;<input class=tr_submit type=reset value="  reset  " name="reset"><br/><br/><?=$info?> 
+						&nbsp;&nbsp;<input class=tr_submit type=reset value="  reset  " name="reset"><br/><br/><?php echo($info)?> 
                       	<p align="center">
                       &nbsp;<p align="center">
                       &nbsp;<p align="center">

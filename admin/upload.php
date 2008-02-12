@@ -1,4 +1,4 @@
-<?
+<?php 
 require_once('../gc-config.php');
 require_once('../gc-settings.php');
 
@@ -8,7 +8,7 @@ auth_redirect();
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Upload File</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=<?get_blog_charset();?>">
+<META http-equiv=Content-Type content="text/html; charset=<?php get_blog_charset();?>">
 <LINK href="style/style.css" rel=stylesheet>
 </HEAD>
 <BODY>
@@ -38,8 +38,8 @@ auth_redirect();
 </tr>
 <tr>
 <td colspan='2' align="center">
-<input type="Submit" value=" ÉÏ´« " class=iwhite> 
-<input type="reset" value=" ÖØÌî " class=iwhite>
+<input type="Submit" value=" ï¿½Ï´ï¿½ " class=iwhite> 
+<input type="reset" value=" ï¿½ï¿½ï¿½ï¿½ " class=iwhite>
 </td>
 </tr>
 </table>

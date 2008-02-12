@@ -1,4 +1,4 @@
-<?
+<?php 
 
 require_once('../gc-config.php');
 require_once('../gc-settings.php');
@@ -8,7 +8,7 @@ auth_redirect();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Upload File</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=<?get_blog_charset();?>">
+<META http-equiv=Content-Type content="text/html; charset=<?php get_blog_charset();?>">
 <LINK href="style/style.css" rel=stylesheet>
 </HEAD>
 <BODY>
@@ -28,18 +28,18 @@ auth_redirect();
         <TR>
           <TD style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px" colSpan=2>
             <DIV id=tr_grid-view>
-<?
-//保存上传的文件  
+<?php 
+//锟斤拷锟斤拷锟较达拷锟斤拷锟侥硷拷  
 $filefolder="upload";
 $filename="$MyFile_name";
 
 if (copy($MyFile,"../$filefolder/$filename")) {
 
-   echo "<h2><font color=#ff0000><a href=\"http://www.ericfish.com/albums/$filefolder/$filename\">$filename</a>文件上传成功！</font></h2><br><br>";
+   echo "<h2><font color=#ff0000><a href=\"http://www.ericfish.com/albums/$filefolder/$filename\">$filename</a>锟侥硷拷锟较达拷锟缴癸拷锟斤拷</font></h2><br><br>";
 
 }else {
 
-   echo "<h2><font color=#ff0000>文件上传失败！</font></h2><br><br>";
+   echo "<h2><font color=#ff0000>锟侥硷拷锟较达拷失锟杰ｏ拷</font></h2><br><br>";
 
 }
 unlink($MyFile);

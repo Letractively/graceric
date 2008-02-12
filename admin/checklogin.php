@@ -1,4 +1,4 @@
-<?
+<?php
 /* Graceric
 *  Author: ericfish
 *  File: /admin/checklogin.php
@@ -26,8 +26,8 @@ function gpc2sql($str) {
         return addslashes($str);
 }
 
-$username = gpc2sql($HTTP_POST_VARS['username']);
-$password = gpc2sql($HTTP_POST_VARS['password']);
+$username = gpc2sql($_POST['username']);
+$password = gpc2sql($_POST['password']);
 
 if(user_login($username,$password))
 {
