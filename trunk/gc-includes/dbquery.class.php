@@ -331,26 +331,30 @@ class DB_Query {
 		//Save comment
 		if(is_comment_valid($comm_name,$comm_e_mail,$comm_website,$comm_content))
 		{
-			$comm_date = Date("Y-m-d H:i:s",Time());
-			$comm_author_ip = get_visitor_ip();
-			
-			$current_postID = $this->posts[0]->ID;
-			
-			$request = "INSERT INTO $gcdb->comments (comment_author, comment_author_email, comment_author_url, comment_content, comment_date, comment_post_ID, comment_author_IP) VALUES ('$comm_name','$comm_e_mail','$comm_website','$comm_content','$comm_date',$current_postID, '$comm_author_ip')";
-			
-			$gcdb->query($request);
-			
-			// send email to admin
-			if(get_settings('comment_email')=="yes"){
-    			$admin_mail = get_settings('admin_email');
-    			$post_url = get_permalink($current_postID);
-    			
-    			$mail_content=stripslashes($comm_content); 
-    		   	$subject = "a new blog comment by $comm_name";
-    		   	$headers .= "From: noreply@ericfish.com\nReply-To: $comm_e_mail";
-    			$text = "$comm_name wrote: $mail_content\n\nCheck out the post at\n$post_url&comment#".bin2hex($comm_date)."\n\n$comm_date, IP:[$comm_author_ip]";
-    			mail($admin_mail, $subject, $text , $headers);		
-			}	
+			$comment_status = $this->posts[0]->comment_status;
+			if ($comment_status == 'open')
+			{
+				$comm_date = Date("Y-m-d H:i:s",Time());
+				$comm_author_ip = get_visitor_ip();
+				
+				$current_postID = $this->posts[0]->ID;
+				
+				$request = "INSERT INTO $gcdb->comments (comment_author, comment_author_email, comment_author_url, comment_content, comment_date, comment_post_ID, comment_author_IP) VALUES ('$comm_name','$comm_e_mail','$comm_website','$comm_content','$comm_date',$current_postID, '$comm_author_ip')";
+				
+				$gcdb->query($request);
+				
+				// send email to admin
+				if(get_settings('comment_email')=="yes"){
+					$admin_mail = get_settings('admin_email');
+					$post_url = get_permalink($current_postID);
+					
+					$mail_content=stripslashes($comm_content); 
+					$subject = "a new blog comment by $comm_name";
+					$headers .= "From: noreply@ericfish.com\nReply-To: $comm_e_mail";
+					$text = "$comm_name wrote: $mail_content\n\nCheck out the post at\n$post_url&comment#".bin2hex($comm_date)."\n\n$comm_date, IP:[$comm_author_ip]";
+					mail($admin_mail, $subject, $text , $headers);		
+				}
+			}
 		}
 	}
 }
