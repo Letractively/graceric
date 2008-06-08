@@ -5,3 +5,5 @@ The language pack codes are based on ISO-639-1
 http://www.loc.gov/standards/iso639-2/englangn.html
 
 Try using entires if possible. &aring; etc.
+
+-ericfish
