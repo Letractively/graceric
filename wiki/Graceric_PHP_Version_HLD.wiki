@@ -1,0 +1,18 @@
+= Introduction =
+
+Some ideas I have and need to be done in [Graceric] v2
+
+
+= Details =
+
+  #. admin can delete comment on page
+  #. full control of spam blacklist...
+  #. change admin pages(content box [WYSIWYG])
+  #. ajax comment post
+  #. new search engine
+  #. more template // no page diff, only css and pic
+  #. wp setup mode
+  #. more config settings
+  #. dynamic create pages
+  #. refine xmlrpc
+  #. add option -> email required & email server
