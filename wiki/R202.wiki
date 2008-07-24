@@ -1,4 +1,0 @@
-#labels Phase-Support
-* What's new
-
-Updated some small bugs.
